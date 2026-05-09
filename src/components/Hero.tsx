@@ -47,7 +47,7 @@ export default function Hero() {
           className="max-w-5xl"
         >
           <h1 className={cn(
-            "text-6xl md:text-8xl lg:text-[10rem] leading-[1.2] tracking-tighter mb-12 pb-6 flex flex-wrap justify-center gap-x-6",
+            "text-6xl md:text-8xl lg:text-[10rem] leading-[1.2] tracking-tighter mb-12 pb-10 flex flex-wrap justify-center gap-x-6",
             titleFont
           )}>
             <motion.span
@@ -62,7 +62,7 @@ export default function Hero() {
               initial={{ y: "100%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="text-gold-gradient pb-4"
+              className="text-gold-gradient text-sand-effect relative pb-6"
             >
               {isAr ? (
                 <>
