@@ -41,7 +41,7 @@ export default function Hero() {
       <div className="absolute top-1/4 -left-20 w-96 h-96 bg-gold/5 rounded-full blur-[120px] animate-float-slow" />
       <div className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-white/5 rounded-full blur-[150px] animate-float-slow [animation-delay:2s]" />
       
-      <div className="container mx-auto px-6 md:px-12 relative z-10 pt-32 pb-20 flex flex-col items-center text-center">
+      <div className="container mx-auto px-6 md:px-12 relative z-20 pt-32 pb-20 flex flex-col items-center text-center">
         <motion.div 
           variants={containerVariants}
           initial="hidden"

@@ -16,7 +16,10 @@ export default function About() {
 
   return (
     <section id="about" className="py-24 relative overflow-hidden scroll-mt-20">
-      <div className="container mx-auto px-6 md:px-12 text-center">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[120px] z-0" />
+      
+      <div className="container mx-auto px-6 md:px-12 text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
