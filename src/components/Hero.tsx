@@ -33,7 +33,7 @@ export default function Hero() {
     },
   } as const;
 
-  const name = isAr ? "سعد نجاعي" : "Saad Nejjai";
+  const name = isAr ? "سعد نجاعي\u200c" : "Saad Nejjai";
 
   return (
     <section id="home" className="relative min-h-screen flex flex-col justify-center overflow-hidden glow-mesh">
@@ -66,7 +66,7 @@ export default function Hero() {
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="text-gold-gradient pb-4"
             >
-              {isAr ? "نجاعي" : "Nejjai"}
+              {isAr ? "نجاعي\u200c" : "Nejjai"}
             </motion.span>
           </h1>
 

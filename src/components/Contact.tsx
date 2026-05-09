@@ -14,43 +14,37 @@ export default function Contact() {
       label: "Behance", 
       value: "behance.net/SaadNejjai", 
       href: "https://www.behance.net/SaadNejjai", 
-      icon: ExternalLink,
-      color: "hover:bg-blue-600"
+      icon: ExternalLink
     },
     { 
       label: "Instagram", 
       value: "@saadnejjjai", 
       href: "https://www.instagram.com/saadnejjjai", 
-      icon: Instagram,
-      color: "hover:bg-pink-600"
+      icon: Instagram
     },
     { 
       label: "Discord", 
       value: "saadnejjai", 
       href: "https://discord.com/users/saadnejjai", 
-      icon: MessageCircle,
-      color: "hover:bg-indigo-600"
+      icon: MessageCircle
     },
     { 
       label: "X / Twitter", 
       value: "@saadnejjai", 
       href: "https://x.com/saadnejjai", 
-      icon: X,
-      color: "hover:bg-neutral-800"
+      icon: X
     },
     { 
       label: "LinkedIn", 
       value: "Saad Nejjai", 
       href: "https://www.linkedin.com/in/saad-nejjai-453410402/", 
-      icon: Linkedin,
-      color: "hover:bg-blue-700"
+      icon: Linkedin
     },
     { 
       label: "Email", 
       value: "business@saadnejjai.com.tr", 
       href: "mailto:business@saadnejjai.com.tr", 
-      icon: Mail,
-      color: "hover:bg-red-600"
+      icon: Mail
     },
   ];
 
@@ -85,9 +79,9 @@ export default function Contact() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="p-8 rounded-3xl bg-white/5 border border-white/10 relative overflow-hidden group"
+              className="p-8 rounded-3xl bg-[#1e1e1e] border border-gold/5 relative overflow-hidden group"
             >
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Send size={80} />
               </div>
               <h4 className="text-white text-3xl mb-4 font-bold tracking-tighter">
@@ -96,7 +90,7 @@ export default function Contact() {
               <p className={cn("text-text-secondary leading-relaxed", isAr ? "font-arabic-body" : "font-english-body")}>
                 {teaserText[language]}
               </p>
-              <div className="mt-6 flex items-center gap-2 text-white font-bold text-sm tracking-widest uppercase">
+              <div className="mt-6 flex items-center gap-2 text-gold font-bold text-sm tracking-widest uppercase">
                 {isAr ? "قريباً" : "Coming Soon"} <ArrowUpRight size={16} />
               </div>
             </motion.div>
@@ -114,25 +108,24 @@ export default function Contact() {
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1, duration: 0.5 }}
                 className={cn(
-                  "flex items-center justify-between p-8 rounded-3xl bg-secondary/30 border border-white/5 transition-all duration-500 group overflow-hidden relative",
-                  link.color
+                  "flex items-center justify-between p-8 rounded-3xl bg-[#1e1e1e]/50 border border-white/5 transition-all duration-500 group overflow-hidden relative hover:bg-gold/5 hover:border-gold/20"
                 )}
               >
                 <div className="flex items-center gap-6 relative z-10">
-                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-gold group-hover:text-black transition-all duration-500">
                     <link.icon size={24} />
                   </div>
                   <div>
-                    <p className="text-white/30 text-xs uppercase tracking-[0.2em] font-bold mb-1 group-hover:text-white/50 transition-colors">{link.label}</p>
-                    <p className={cn("text-white text-xl font-bold", isAr ? "font-arabic-body" : "font-english-body")}>{link.value}</p>
+                    <p className="text-white/20 text-xs uppercase tracking-[0.2em] font-bold mb-1 group-hover:text-gold/50 transition-colors">{link.label}</p>
+                    <p className={cn("text-white/80 group-hover:text-white text-xl font-bold transition-colors", isAr ? "font-arabic-body" : "font-english-body")}>{link.value}</p>
                   </div>
                 </div>
                 <div className="relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0">
-                  <ArrowUpRight size={32} className="text-white" />
+                  <ArrowUpRight size={32} className="text-gold" />
                 </div>
                 
-                {/* Glow effect on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                {/* Subtle glow effect on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               </motion.a>
             ))}
           </div>
