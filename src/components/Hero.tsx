@@ -9,8 +9,6 @@ export default function Hero() {
   const { language, t } = useLanguage();
 
   const isAr = language === "ar";
-  // For the hero title, we use Almarai if Arabic to ensure the "ي" and other characters render perfectly with dots.
-  // Thmanyah is used for headers elsewhere.
   const titleFont = isAr ? "font-arabic-hero" : "font-english-hero";
   const bodyFont = isAr ? "font-arabic-body" : "font-english-body";
 
@@ -48,27 +46,38 @@ export default function Hero() {
           animate="visible"
           className="max-w-5xl"
         >
-          <h1 className={cn(
-            "text-6xl md:text-8xl lg:text-[10rem] leading-[1.2] tracking-tighter mb-12 pb-10 flex flex-wrap justify-center gap-x-6",
-            titleFont
-          )}>
-            <motion.span
-              initial={{ y: "100%", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="text-text-primary"
-            >
-              {isAr ? "سعد " : "Saad "}
-            </motion.span>
-            <motion.span
-              initial={{ y: "100%", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="text-gold-gradient relative pb-6"
-            >
-              {isAr ? "نجاعي" : "Nejjai"}
-            </motion.span>
-          </h1>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-12">
+            <motion.img 
+              initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              src="https://imgur.com/gfGxLxQ.png" 
+              alt="Saad Nejjai Logo" 
+              className="h-32 md:h-48 w-auto object-contain drop-shadow-[0_0_30px_rgba(210,180,140,0.2)]"
+            />
+            
+            <h1 className={cn(
+              "text-6xl md:text-8xl lg:text-[9rem] leading-[1.1] tracking-tighter flex flex-wrap justify-center gap-x-6",
+              titleFont
+            )}>
+              <motion.span
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="text-text-primary"
+              >
+                {isAr ? "سعد " : "Saad "}
+              </motion.span>
+              <motion.span
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="text-gold-gradient relative"
+              >
+                {isAr ? "نجاعي" : "Nejjai"}
+              </motion.span>
+            </h1>
+          </div>
 
           <motion.div variants={itemVariants} className="max-w-2xl mx-auto relative">
             <p className={cn("text-2xl md:text-4xl text-text-primary mb-6", titleFont)}>
