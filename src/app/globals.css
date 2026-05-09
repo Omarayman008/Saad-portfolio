@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #121212;
+  --color-secondary: #1e1e1e;
+  --color-gold: #d2b48c; /* Beige */
+  --color-gold-light: #e5d3b3;
+  --color-gold-dark: #b89b72;
+  --color-cyan: #374151;
+  --color-text-primary: #f5f5f5;
+  --color-text-secondary: rgba(245, 245, 245, 0.5);
+  
+  --font-arabic-hero: var(--font-thmanyah), var(--font-ibm-plex-arabic), sans-serif;
+  --font-english-hero: var(--font-playfair), serif;
+  --font-arabic-body: var(--font-thmanyah), var(--font-ibm-plex-arabic), sans-serif;
+  --font-english-body: var(--font-cormorant), serif;
+}
+
+@layer base {
+  :root {
+    --bg-color: #000000;
+    --text-color: #FFFFFF;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #000000; 
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1); 
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #FACC15; 
+  }
+}
+
+.bg-noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #e5d3b3 0%, #d2b48c 50%, #b89b72 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility glass-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 40px; /* Increased for "inflated" look */
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@utility glass-card-hover {
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(250, 204, 21, 0.4);
+    box-shadow: 
+      0 0 60px rgba(250, 204, 21, 0.05),
+      inset 0 0 20px rgba(255, 255, 255, 0.02);
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+.bento-card {
+  @apply glass-card overflow-hidden relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.text-reveal {
+  overflow: hidden;
+  display: block;
+}
+
+.text-reveal span {
+  display: block;
+  transform: translateY(100%);
+  animation: reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+@keyframes reveal {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(0); }
+}
+
+.glow-mesh {
+  background: 
+    radial-gradient(at 0% 0%, rgba(250, 204, 21, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(250, 204, 21, 0.05) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
+}
+
+.pill-glow {
+  position: relative;
+}
+
+.pill-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, #FACC15, #06B6D4, #FACC15);
+  background-size: 200% 100%;
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s;
+  animation: move-gradient 4s linear infinite;
+}
+
+.pill-glow:hover::before {
+  opacity: 1;
+}
+
+@keyframes move-gradient {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes float-slow {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -40px) scale(1.1); }
+  66% { transform: translate(-30px, 30px) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+.animate-float-slow {
+  animation: float-slow 15s ease-in-out infinite;
+}
+
+.glow-container {
+  position: relative;
+  isolation: isolate;
+}
+
+.glow-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(250, 204, 21, 0.15), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.glow-container:hover::after {
+  opacity: 1;
+}
