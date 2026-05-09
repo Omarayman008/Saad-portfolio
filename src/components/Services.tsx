@@ -62,8 +62,8 @@ export default function Services() {
             className="max-w-2xl"
           >
             <h2 className={cn("text-5xl md:text-7xl mb-8", isAr ? "font-arabic-hero" : "font-english-hero")}>
-              <span className="text-gold-gradient block mb-2">{t("servicesTitle")}</span>
-              <span className="text-white/20 tracking-tighter uppercase">{t("servicesDesc")}</span>
+              <div className="text-gold-gradient mb-4">{t("servicesTitle")}</div>
+              <div className="text-white/20 tracking-tighter uppercase text-3xl md:text-5xl">{t("servicesDesc")}</div>
             </h2>
           </motion.div>
         </div>

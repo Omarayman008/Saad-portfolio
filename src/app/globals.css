@@ -10,9 +10,9 @@
   --color-text-primary: #f5f5f5;
   --color-text-secondary: rgba(245, 245, 245, 0.5);
   
-  --font-arabic-hero: var(--font-ibm-plex-arabic), sans-serif;
+  --font-arabic-hero: var(--font-thmanyah), var(--font-ibm-plex-arabic), sans-serif;
   --font-english-hero: var(--font-playfair), serif;
-  --font-arabic-body: var(--font-ibm-plex-arabic), sans-serif;
+  --font-arabic-body: var(--font-thmanyah), var(--font-ibm-plex-arabic), sans-serif;
   --font-english-body: var(--font-cormorant), serif;
 }
 

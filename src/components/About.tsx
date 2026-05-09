@@ -27,11 +27,13 @@ export default function About() {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto"
         >
-          <h2 className={cn("text-5xl md:text-6xl mb-10", isAr ? "font-arabic-hero" : "font-english-hero")}>
-            <span className="text-gold-gradient block mb-4">
+          <h2 className={cn("text-5xl md:text-7xl mb-12", isAr ? "font-arabic-hero" : "font-english-hero")}>
+            <div className="text-gold-gradient mb-6">
               {t("aboutTitle")}
-            </span>
-            {t("aboutSubtitle")}
+            </div>
+            <div className="text-white">
+              {t("aboutSubtitle")}
+            </div>
           </h2>
           
           <p className={cn("text-xl text-text-secondary leading-relaxed mb-16 mx-auto", isAr ? "font-arabic-body" : "font-english-body")}>
