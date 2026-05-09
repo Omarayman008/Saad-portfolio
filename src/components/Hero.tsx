@@ -44,18 +44,18 @@ export default function Hero() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center"
+          className="flex flex-col lg:flex-row-reverse items-center justify-between gap-12 lg:gap-24"
         >
-          {/* Column 1: Text Content (Right side in RTL) */}
-          <div className="flex flex-col items-center lg:items-end text-center lg:text-right order-1">
+          {/* Right Column: Text Content (Pinned to the right) */}
+          <div className="flex flex-col items-center lg:items-end text-center lg:text-right flex-1">
             <motion.h1 
               variants={itemVariants}
               className={cn(
-                "text-7xl md:text-8xl lg:text-[11rem] leading-[0.9] tracking-tighter mb-4",
+                "text-7xl md:text-8xl lg:text-[10rem] leading-[0.85] tracking-tighter mb-4",
                 titleFont
               )}
             >
-              <div className="text-text-primary mb-2">
+              <div className="text-text-primary mb-1">
                 {isAr ? "سعد" : "Saad"}
               </div>
               <div className="text-gold-gradient">
@@ -63,11 +63,11 @@ export default function Hero() {
               </div>
             </motion.h1>
 
-            <motion.div variants={itemVariants} className="mt-8 space-y-6">
+            <motion.div variants={itemVariants} className="mt-8 space-y-6 w-full flex flex-col items-center lg:items-end">
               <p className={cn("text-3xl md:text-5xl text-text-primary font-medium", titleFont)}>
                 {t("tagline")}
               </p>
-              <p className={cn("text-lg md:text-2xl text-text-secondary leading-relaxed max-w-xl lg:ml-auto", bodyFont)}>
+              <p className={cn("text-lg md:text-2xl text-text-secondary leading-relaxed max-w-xl", bodyFont)}>
                 {t("subTagline")}
               </p>
             </motion.div>
@@ -78,7 +78,7 @@ export default function Hero() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={cn(
-                  "group relative px-14 py-6 bg-gold text-primary overflow-hidden transition-all duration-500 rounded-full shadow-[0_0_30px_rgba(210,180,140,0.2)] hover:shadow-[0_0_60px_rgba(210,180,140,0.4)]",
+                  "group relative px-12 py-5 bg-gold text-primary overflow-hidden transition-all duration-500 rounded-full shadow-[0_0_30px_rgba(210,180,140,0.2)] hover:shadow-[0_0_60px_rgba(210,180,140,0.4)]",
                   bodyFont,
                   "text-xl font-bold uppercase tracking-widest flex items-center gap-4"
                 )}
@@ -90,17 +90,17 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Column 2: Logo (Left side in RTL) */}
+          {/* Left Column: Logo (Balanced & Shrunk) */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.8, x: -50 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center lg:justify-start order-2"
+            className="flex justify-center lg:justify-start flex-1"
           >
             <img 
               src="https://imgur.com/gfGxLxQ.png" 
               alt="Saad Nejjai Logo" 
-              className="w-full max-w-[300px] md:max-w-[450px] lg:max-w-full h-auto object-contain drop-shadow-[0_0_50px_rgba(210,180,140,0.15)]"
+              className="w-full max-w-[250px] md:max-w-[350px] lg:max-w-[400px] h-auto object-contain drop-shadow-[0_0_50px_rgba(210,180,140,0.15)]"
             />
           </motion.div>
         </motion.div>
