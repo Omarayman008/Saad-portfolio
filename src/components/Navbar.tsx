@@ -45,13 +45,16 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-6 md:px-12 flex justify-between items-center flex-row-reverse">
         {/* Logo on the right with sand/beige colors and dusty effect */}
-        <div className={cn(
-          "text-2xl font-black tracking-[0.2em] uppercase flex items-center gap-2 text-sand-effect",
-          isAr ? "font-arabic-hero" : "font-english-hero"
-        )}>
-          <span style={{ color: '#c2b280' }}>Saad</span>
-          <span style={{ color: '#8b7355' }}>Nejjai</span>
-        </div>
+        <motion.div 
+          whileHover={{ scale: 1.05 }}
+          className="relative h-10 w-auto cursor-pointer"
+        >
+          <img 
+            src="https://imgur.com/gfGxLxQ.png" 
+            alt="Saad Nejjai" 
+            className="h-full w-auto object-contain drop-shadow-[0_0_15px_rgba(255,200,61,0.3)]"
+          />
+        </motion.div>
 
         {/* Links and Language on the left */}
         <div className="flex items-center gap-10">
