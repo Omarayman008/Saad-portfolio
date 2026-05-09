@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Cormorant_Garamond, Almarai, IBM_Plex_Sans_Arabic } from "next/font/google";
+import { Playfair_Display, Cormorant_Garamond, Almarai, IBM_Plex_Sans_Arabic, Outfit } from "next/font/google";
 import localFont from "next/font/local";
 import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+});
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -64,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${playfair.variable} ${cormorant.variable} ${almarai.variable} ${ibmPlexArabic.variable} ${thmanyah.variable}`}>
+    <html lang="ar" dir="rtl" className={`${playfair.variable} ${cormorant.variable} ${almarai.variable} ${ibmPlexArabic.variable} ${thmanyah.variable} ${outfit.variable}`}>
       <body className="antialiased bg-primary text-text-primary overflow-x-hidden selection:bg-gold/30 selection:text-gold-light">
         <LanguageProvider>
           <div className="bg-noise" />
