@@ -226,12 +226,12 @@ function PortfolioContent() {
                 animate={{ scale: scale, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                className="relative max-w-5xl w-full max-h-full flex items-center justify-center overflow-auto scrollbar-hide"
+                className="relative w-full h-full flex items-center justify-center p-4 md:p-10"
                 style={{ cursor: scale > 1 ? 'grab' : 'zoom-out' }}
             >
                 <img 
                     src={selectedImg} 
-                    className="max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/5 transition-transform duration-300"
+                    className="max-w-full max-h-full w-auto h-auto object-contain rounded-xl shadow-2xl transition-transform duration-300"
                     draggable={false}
                 />
             </motion.div>
