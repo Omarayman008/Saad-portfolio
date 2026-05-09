@@ -94,28 +94,39 @@ const INITIAL_PROJECTS = [
   { id: "c28", category: "carousel", title: "Carousel 28", img: "https://imgur.com/gW4SjcN.png" },
 ];
 
-function FolderIcon({ label, previewImg }: { label: string, previewImg?: string }) {
+function FolderIcon({ label, previewImgs }: { label: string, previewImgs: string[] }) {
   return (
-    <div className="flex flex-col items-center gap-6 w-48 md:w-64 group cursor-pointer">
-      <div className="relative w-full aspect-[4/3] transition-transform duration-500 group-hover:scale-105">
-        <div className="absolute inset-0 bg-[#262626] border border-white/5 rounded-2xl shadow-2xl transition-all duration-500" style={{ clipPath: 'polygon(0 15%, 40% 15%, 50% 0, 100% 0, 100% 100%, 0 100%)' }}>
-            <div className="absolute top-2 left-2 right-2 bottom-2 bg-gold/5 rounded-xl" />
+    <div className="flex flex-col items-center gap-8 w-64 md:w-80 group cursor-pointer">
+      <div className="relative w-full aspect-[16/10]">
+        {/* Stacked Papers/Images Effect */}
+        <div className="absolute inset-0 flex items-center justify-center">
+            {/* Third layer (back) */}
+            <div className="absolute w-[85%] h-[85%] bg-[#1a1a1a] border border-white/5 rounded-2xl shadow-2xl transition-all duration-700 group-hover:-translate-y-12 group-hover:-rotate-6 group-hover:scale-105 overflow-hidden">
+                <img src={previewImgs[2] || previewImgs[0]} className="w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity" />
+            </div>
+            {/* Second layer (middle) */}
+            <div className="absolute w-[90%] h-[90%] bg-[#262626] border border-white/10 rounded-2xl shadow-2xl transition-all duration-500 group-hover:-translate-y-8 group-hover:rotate-3 group-hover:scale-105 overflow-hidden">
+                <img src={previewImgs[1] || previewImgs[0]} className="w-full h-full object-cover opacity-30 group-hover:opacity-60 transition-opacity" />
+            </div>
+            {/* Main Folder Front */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#d2b48c]/10 to-[#d2b48c]/5 backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 group-hover:border-gold/30 flex flex-col justify-end p-6 overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="relative z-10">
+                    <div className="w-12 h-1 bg-gold/30 rounded-full mb-4 group-hover:w-20 transition-all duration-700" />
+                    <h4 className="text-white font-bold text-2xl tracking-tighter opacity-80 group-hover:opacity-100 transition-opacity">
+                        {label}
+                    </h4>
+                </div>
+                {/* Preview Image integrated into the folder front but subtle */}
+                <div className="absolute top-0 left-0 w-full h-full -z-10">
+                    <img src={previewImgs[0]} className="w-full h-full object-cover opacity-5 group-hover:opacity-20 transition-opacity duration-1000 scale-110 group-hover:scale-100" />
+                </div>
+            </div>
         </div>
-        <div className="absolute top-2 left-4 right-4 h-3/4 bg-white/5 rounded-xl shadow-inner transition-all duration-700 overflow-hidden backdrop-blur-md group-hover:-translate-y-8">
-           {previewImg ? (
-             <img src={previewImg} className="w-full h-full object-cover opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-500" alt="" />
-           ) : (
-             <div className="w-full h-full bg-gradient-to-br from-white/10 to-white/5" />
-           )}
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-[75%] bg-[#1a1a1a]/95 border border-gold/10 rounded-2xl shadow-[0_-10px_30px_rgba(0,0,0,0.5)] transition-transform duration-500 origin-bottom backdrop-blur-md group-hover:rotate-x-[-15deg]">
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gold/20 rounded-t-2xl" />
-            <div className="absolute inset-0 bg-gradient-to-b from-gold/5 to-transparent rounded-2xl" />
-        </div>
+        
+        {/* Glow behind on hover */}
+        <div className="absolute inset-0 bg-gold/5 blur-[60px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-20" />
       </div>
-      <span className="text-xl md:text-2xl font-bold tracking-[0.2em] uppercase text-text-secondary group-hover:text-gold transition-all duration-300">
-        {label}
-      </span>
     </div>
   );
 }
@@ -169,13 +180,16 @@ function PortfolioContent() {
               transition={{ duration: 0.8, ease: "circOut" }}
               className="text-center"
             >
-              <h2 className={cn("text-5xl md:text-7xl mb-24", isAr ? "font-arabic-hero" : "font-english-hero")}>
+              <h2 className={cn("text-5xl md:text-7xl mb-32", isAr ? "font-arabic-hero" : "font-english-hero")}>
                 <span className="text-gold-gradient">{t("portfolioTitle")}</span>
               </h2>
               
               <div className="flex flex-wrap justify-center gap-16 md:gap-24">
                 {currentCategories.map((cat) => {
-                  const preview = projects.find(p => p.category === cat.id && !p.isDivider)?.img;
+                  const preview = projects
+                    .filter(p => p.category === cat.id && !p.isDivider)
+                    .slice(0, 3)
+                    .map(p => p.img!);
                   return (
                     <motion.button
                       key={cat.id}
@@ -185,7 +199,7 @@ function PortfolioContent() {
                     >
                       <FolderIcon 
                         label={cat.label} 
-                        previewImg={preview}
+                        previewImgs={preview}
                       />
                     </motion.button>
                   );
