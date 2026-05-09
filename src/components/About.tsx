@@ -57,6 +57,21 @@ export default function About() {
               </motion.div>
             ))}
           </div>
+          <div className="mt-24 pt-16 border-t border-white/5">
+            <h3 className={cn("text-sm uppercase tracking-[0.4em] text-white/30 mb-12", isAr ? "font-arabic-body" : "font-english-body")}>
+              {isAr ? "شركاء النجاح" : "Partners & Collaborations"}
+            </h3>
+            <div className="flex flex-wrap justify-center items-center gap-12 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
+              <motion.img 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                src="https://imgur.com/gfGxLxQ.png" 
+                alt="Client Logo" 
+                className="h-16 md:h-24 w-auto object-contain hover:scale-110 transition-transform duration-500 cursor-pointer"
+              />
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
