@@ -46,22 +46,8 @@ export default function Hero() {
           animate="visible"
           className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center"
         >
-          {/* Left Column: Logo (Parallel to text height) */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.8, x: -50 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center lg:justify-start order-2 lg:order-1"
-          >
-            <img 
-              src="https://imgur.com/gfGxLxQ.png" 
-              alt="Saad Nejjai Logo" 
-              className="w-full max-w-[300px] md:max-w-[450px] lg:max-w-full h-auto object-contain drop-shadow-[0_0_50px_rgba(210,180,140,0.15)]"
-            />
-          </motion.div>
-
-          {/* Right Column: Text Content (Right Aligned) */}
-          <div className="flex flex-col items-center lg:items-end text-center lg:text-right order-1 lg:order-2">
+          {/* Column 1: Text Content (Right side in RTL) */}
+          <div className="flex flex-col items-center lg:items-end text-center lg:text-right order-1">
             <motion.h1 
               variants={itemVariants}
               className={cn(
@@ -103,6 +89,20 @@ export default function Hero() {
               </motion.a>
             </motion.div>
           </div>
+
+          {/* Column 2: Logo (Left side in RTL) */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8, x: -50 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+            className="flex justify-center lg:justify-start order-2"
+          >
+            <img 
+              src="https://imgur.com/gfGxLxQ.png" 
+              alt="Saad Nejjai Logo" 
+              className="w-full max-w-[300px] md:max-w-[450px] lg:max-w-full h-auto object-contain drop-shadow-[0_0_50px_rgba(210,180,140,0.15)]"
+            />
+          </motion.div>
         </motion.div>
       </div>
 
