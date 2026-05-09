@@ -24,10 +24,10 @@ export default function Hero() {
   } as const;
 
   const itemVariants = {
-    hidden: { opacity: 0, x: isAr ? 50 : -50, filter: "blur(10px)" },
+    hidden: { opacity: 0, y: 50, filter: "blur(10px)" },
     visible: { 
       opacity: 1, 
-      x: 0, 
+      y: 0, 
       filter: "blur(0px)",
       transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } 
     },
@@ -44,64 +44,44 @@ export default function Hero() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex flex-col lg:flex-row-reverse items-center justify-between gap-12 lg:gap-24"
+          className="flex flex-col items-center text-center max-w-4xl mx-auto"
         >
-          {/* Right Column: Text Content (Pinned to the right) */}
-          <div className="flex flex-col items-center lg:items-end text-center lg:text-right flex-1">
-            <motion.h1 
-              variants={itemVariants}
-              className={cn(
-                "text-7xl md:text-8xl lg:text-[10rem] leading-[0.85] tracking-tighter mb-4",
-                titleFont
-              )}
-            >
-              <div className="text-text-primary mb-1">
-                {isAr ? "سعد" : "Saad"}
-              </div>
-              <div className="text-gold-gradient">
-                {isAr ? "نجاعي" : "Nejjai"}
-              </div>
-            </motion.h1>
-
-            <motion.div variants={itemVariants} className="mt-8 space-y-6 w-full flex flex-col items-center lg:items-end">
-              <p className={cn("text-3xl md:text-5xl text-text-primary font-medium", titleFont)}>
-                {t("tagline")}
-              </p>
-              <p className={cn("text-lg md:text-2xl text-text-secondary leading-relaxed max-w-xl", bodyFont)}>
-                {t("subTagline")}
-              </p>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="mt-12">
-              <motion.a 
-                href="#portfolio" 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={cn(
-                  "group relative px-12 py-5 bg-gold text-primary overflow-hidden transition-all duration-500 rounded-full shadow-[0_0_30px_rgba(210,180,140,0.2)] hover:shadow-[0_0_60px_rgba(210,180,140,0.4)]",
-                  bodyFont,
-                  "text-xl font-bold uppercase tracking-widest flex items-center gap-4"
-                )}
-              >
-                <span className="relative z-10">{t("viewWork")}</span>
-                <ArrowDownRight size={24} className="relative z-10" />
-                <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
-              </motion.a>
-            </motion.div>
-          </div>
-
-          {/* Left Column: Logo (Balanced & Shrunk) */}
+          {/* Logo Replacement for Name */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.8, x: -50 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center lg:justify-start flex-1"
+            variants={itemVariants}
+            className="mb-12"
           >
             <img 
               src="https://imgur.com/gfGxLxQ.png" 
               alt="Saad Nejjai Logo" 
-              className="w-full max-w-[250px] md:max-w-[350px] lg:max-w-[400px] h-auto object-contain drop-shadow-[0_0_50px_rgba(210,180,140,0.15)]"
+              className="w-full max-w-[300px] md:max-w-[500px] h-auto object-contain drop-shadow-[0_0_50px_rgba(255,200,61,0.2)]"
             />
+          </motion.div>
+
+          <motion.div variants={itemVariants} className="space-y-8">
+            <p className={cn("text-4xl md:text-7xl text-text-primary font-bold tracking-tight", titleFont)}>
+              {t("tagline")}
+            </p>
+            <p className={cn("text-lg md:text-2xl text-text-secondary leading-relaxed max-w-2xl mx-auto", bodyFont)}>
+              {t("subTagline")}
+            </p>
+          </motion.div>
+
+          <motion.div variants={itemVariants} className="mt-16">
+            <motion.a 
+              href="#portfolio" 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={cn(
+                "group relative px-14 py-6 bg-gold text-primary overflow-hidden transition-all duration-500 rounded-full shadow-[0_0_30px_rgba(255,200,61,0.2)] hover:shadow-[0_0_60px_rgba(255,200,61,0.4)]",
+                bodyFont,
+                "text-xl font-bold uppercase tracking-widest flex items-center gap-4"
+              )}
+            >
+              <span className="relative z-10">{t("viewWork")}</span>
+              <ArrowDownRight size={24} className="relative z-10" />
+              <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
+            </motion.a>
           </motion.div>
         </motion.div>
       </div>
@@ -110,7 +90,7 @@ export default function Hero() {
         initial={{ height: 0 }}
         animate={{ height: "100%" }}
         transition={{ duration: 2, ease: "easeInOut" }}
-        className="absolute top-0 left-10 w-[1px] bg-gradient-to-b from-transparent via-gold/20 to-transparent hidden lg:block"
+        className="absolute top-0 right-10 w-[1px] bg-gradient-to-b from-transparent via-gold/10 to-transparent hidden lg:block"
       />
     </section>
   );

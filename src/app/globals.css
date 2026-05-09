@@ -11,9 +11,9 @@
   --color-text-secondary: #94a3b8;
   
   --font-arabic-hero: var(--font-ibm-plex-arabic), sans-serif;
-  --font-english-hero: var(--font-outfit), sans-serif;
+  --font-english-hero: var(--font-bagel), sans-serif;
   --font-arabic-body: var(--font-ibm-plex-arabic), sans-serif;
-  --font-english-body: var(--font-outfit), sans-serif;
+  --font-english-body: var(--font-quicksand), sans-serif;
 }
 
 @layer base {

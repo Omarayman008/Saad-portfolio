@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Cormorant_Garamond, Almarai, IBM_Plex_Sans_Arabic, Outfit } from "next/font/google";
+import { Almarai, IBM_Plex_Sans_Arabic, Outfit, Bagel_Fat_One, Quicksand } from "next/font/google";
 import localFont from "next/font/local";
 import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
@@ -9,15 +9,15 @@ const outfit = Outfit({
   variable: "--font-outfit",
 });
 
-const playfair = Playfair_Display({
+const quicksand = Quicksand({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-quicksand",
 });
 
-const cormorant = Cormorant_Garamond({
-  weight: ["300", "400", "500", "600", "700"],
+const bagel = Bagel_Fat_One({
+  weight: "400",
   subsets: ["latin"],
-  variable: "--font-cormorant",
+  variable: "--font-bagel",
 });
 
 const almarai = Almarai({
@@ -69,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${playfair.variable} ${cormorant.variable} ${almarai.variable} ${ibmPlexArabic.variable} ${thmanyah.variable} ${outfit.variable}`}>
+    <html lang="ar" dir="rtl" className={`${almarai.variable} ${ibmPlexArabic.variable} ${thmanyah.variable} ${outfit.variable} ${bagel.variable} ${quicksand.variable}`}>
       <body className="antialiased bg-primary text-text-primary overflow-x-hidden selection:bg-gold/30 selection:text-gold-light">
         <LanguageProvider>
           <div className="bg-noise" />
