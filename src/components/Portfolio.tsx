@@ -35,6 +35,9 @@ const INITIAL_PROJECTS = [
   { id: "l5", category: "logos", title: "Logo 5", img: "https://imgur.com/lccptZZ.png" },
   { id: "l6", category: "logos", title: "Logo 6", img: "https://imgur.com/aERzg4K.png" },
   { id: "l7", category: "logos", title: "Logo 7", img: "https://imgur.com/CKlAFIw.png" },
+  { id: "ld2", category: "logos", isDivider: true, label: { ar: "مجموعة جديدة", en: "New Collection", tr: "Yeni Koleksiyon" } },
+  { id: "l8", category: "logos", title: "Logo 8", img: "https://imgur.com/ltortDs.png" },
+  { id: "l9", category: "logos", title: "Logo 9", img: "https://imgur.com/QXUmR11.png" },
 
   // BOOK COVERS (19)
   { id: "bc1", category: "book-covers", title: "Cover 1", img: "https://imgur.com/DuWQXny.png" },
