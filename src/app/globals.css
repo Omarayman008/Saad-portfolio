@@ -172,3 +172,21 @@
   mask-image: linear-gradient(black, black);
 }
 
+.force-dots-y {
+  position: relative;
+  display: inline-block;
+}
+
+.force-dots-y::after {
+  content: "";
+  position: absolute;
+  bottom: 0.15em;
+  left: 35%;
+  width: 0.15em;
+  height: 0.15em;
+  background-color: currentColor;
+  border-radius: 50%;
+  box-shadow: 0.25em 0 0 currentColor;
+  opacity: 0.9;
+}
+

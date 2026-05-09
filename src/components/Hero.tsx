@@ -33,8 +33,6 @@ export default function Hero() {
     },
   } as const;
 
-  const name = isAr ? "سعد نجاعي\u200c" : "Saad Nejjai";
-
   return (
     <section id="home" className="relative min-h-screen flex flex-col justify-center overflow-hidden glow-mesh">
       {/* Inflated Floating Elements */}
@@ -66,7 +64,11 @@ export default function Hero() {
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="text-gold-gradient pb-4"
             >
-              {isAr ? "نجاعي\u200c" : "Nejjai"}
+              {isAr ? (
+                <>
+                  نجاع<span className="force-dots-y">ي</span>
+                </>
+              ) : "Nejjai"}
             </motion.span>
           </h1>
 
