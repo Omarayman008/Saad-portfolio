@@ -9,6 +9,8 @@ export default function Hero() {
   const { language, t } = useLanguage();
 
   const isAr = language === "ar";
+  // For the hero title, we use Almarai if Arabic to ensure the "ي" and other characters render perfectly with dots.
+  // Thmanyah is used for headers elsewhere.
   const titleFont = isAr ? "font-arabic-hero" : "font-english-hero";
   const bodyFont = isAr ? "font-arabic-body" : "font-english-body";
 
@@ -62,13 +64,9 @@ export default function Hero() {
               initial={{ y: "100%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="text-gold-gradient text-sand-effect relative pb-6"
+              className="text-gold-gradient relative pb-6"
             >
-              {isAr ? (
-                <>
-                  نجاع<span className="force-dots-y">ي</span>
-                </>
-              ) : "Nejjai"}
+              {isAr ? "نجاعي" : "Nejjai"}
             </motion.span>
           </h1>
 

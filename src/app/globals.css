@@ -10,7 +10,7 @@
   --color-text-primary: #f5f5f5;
   --color-text-secondary: rgba(245, 245, 245, 0.5);
   
-  --font-arabic-hero: var(--font-thmanyah), var(--font-ibm-plex-arabic), sans-serif;
+  --font-arabic-hero: var(--font-ibm-plex-arabic), var(--font-thmanyah), sans-serif;
   --font-english-hero: var(--font-playfair), serif;
   --font-arabic-body: var(--font-ibm-plex-arabic), var(--font-thmanyah), sans-serif;
   --font-english-body: var(--font-cormorant), serif;
@@ -172,23 +172,5 @@
   mask-image: linear-gradient(black, black);
 }
 
-.force-dots-y {
-  position: relative;
-  display: inline-block;
-  padding-bottom: 0.1em;
-}
 
-.force-dots-y::after {
-  content: "";
-  position: absolute;
-  bottom: -0.05em;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0.5em;
-  height: 0.25em;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 60 30' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='10' y='5' width='15' height='15' transform='rotate(45 17.5 12.5)' fill='white'/%3E%3Crect x='35' y='5' width='15' height='15' transform='rotate(45 42.5 12.5)' fill='white'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.8;
-}
 
