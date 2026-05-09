@@ -34,7 +34,7 @@ const translations = {
     contactTitle: "هل لديك مشروع؟",
     contactSubtitle: "لنبدأ العمل معاً",
     contactDesc: "متاح دائماً لمناقشة الأفكار الجديدة والمشاريع الإبداعية. تواصل معي عبر المنصات التالية:",
-    copyright: "All Rights Reserved to Saad Nejjai",
+    copyright: "© All Rights Reserved to Saad Nejjai",
   },
   en: {
     home: "Home",
@@ -59,7 +59,7 @@ const translations = {
     contactTitle: "Have a Project?",
     contactSubtitle: "Let's Work Together",
     contactDesc: "Always available to discuss new ideas and creative projects. Contact me via the following platforms:",
-    copyright: "All Rights Reserved to Saad Nejjai",
+    copyright: "© All Rights Reserved to Saad Nejjai",
   },
   tr: {
     home: "Ana Sayfa",
@@ -84,7 +84,7 @@ const translations = {
     contactTitle: "Bir Projeniz mi Var?",
     contactSubtitle: "Birlikte Çalışalım",
     contactDesc: "Yeni fikirleri ve yaratıcı projeleri tartışmak için her zaman hazırım. Benimle aşağıdaki platformlar üzerinden iletişime geçebilirsiniz:",
-    copyright: "All Rights Reserved to Saad Nejjai",
+    copyright: "© All Rights Reserved to Saad Nejjai",
   }
 };
 
