@@ -11,29 +11,84 @@ const INITIAL_CATEGORIES = {
   ar: [
     { id: "logos", label: "شعارات" },
     { id: "book-covers", label: "أغلفة كتب" },
+    { id: "carousel", label: "كاروسيل" },
   ],
   en: [
     { id: "logos", label: "Logos" },
     { id: "book-covers", label: "Book Covers" },
+    { id: "carousel", label: "Carousel" },
   ],
   tr: [
     { id: "logos", label: "Logolar" },
     { id: "book-covers", label: "Kitap Kapakları" },
+    { id: "carousel", label: "Karayel" },
   ]
 };
 
 const INITIAL_PROJECTS = [
-  { id: 1, category: "logos", title: "Saad v1", img: "/images/logos/Saad_v1_-_behance_.jpg" },
-  { id: 2, category: "logos", title: "Umon", img: "/images/logos/Umon.jpg" },
-  { id: 3, category: "logos", title: "VETscan", img: "/images/logos/VETscan.png" },
-  { id: 4, category: "logos", title: "Massive", img: "/images/logos/massive_-vfinal.png" },
-  { id: 5, category: "book-covers", title: "Cover 1", img: "/images/book-covers/bilin_lenme_251120_235201_page-0001.jpg" },
-  { id: 6, category: "book-covers", title: "Cover 2", img: "/images/book-covers/undefined-__1_.jpeg" },
-  { id: 7, category: "book-covers", title: "Cover 3", img: "/images/book-covers/undefined-__2_.jpeg" },
-  { id: 8, category: "book-covers", title: "Cover 4", img: "/images/book-covers/undefined-__3_.jpeg" },
-  { id: 9, category: "book-covers", title: "Cover 5", img: "/images/book-covers/undefined-__4_.jpeg" },
-  { id: 10, category: "book-covers", title: "Cover 6", img: "/images/book-covers/undefined-__5_.jpeg" },
-  { id: 11, category: "book-covers", title: "Cover 7", img: "/images/book-covers/undefined-.jpeg" },
+  // LOGOS
+  { id: "l1", category: "logos", title: "Logo 1", img: "https://imgur.com/lZTassL.png" },
+  { id: "l2", category: "logos", title: "Logo 2", img: "https://imgur.com/KM6knMY.png" },
+  { id: "l3", category: "logos", title: "Logo 3", img: "https://imgur.com/A7CY9n3.png" },
+  { id: "ld1", category: "logos", isDivider: true, label: { ar: "مجموعة جديدة", en: "New Collection", tr: "Yeni Koleksiyon" } },
+  { id: "l4", category: "logos", title: "Logo 4", img: "https://imgur.com/dYp5qH5.png" },
+  { id: "l5", category: "logos", title: "Logo 5", img: "https://imgur.com/lccptZZ.png" },
+  { id: "l6", category: "logos", title: "Logo 6", img: "https://imgur.com/aERzg4K.png" },
+  { id: "l7", category: "logos", title: "Logo 7", img: "https://imgur.com/CKlAFIw.png" },
+
+  // BOOK COVERS (19)
+  { id: "bc1", category: "book-covers", title: "Cover 1", img: "https://imgur.com/DuWQXny.png" },
+  { id: "bc2", category: "book-covers", title: "Cover 2", img: "https://imgur.com/AP6R51v.png" },
+  { id: "bc3", category: "book-covers", title: "Cover 3", img: "https://imgur.com/CgGUsGb.png" },
+  { id: "bc4", category: "book-covers", title: "Cover 4", img: "https://imgur.com/cdB99kB.png" },
+  { id: "bc5", category: "book-covers", title: "Cover 5", img: "https://imgur.com/kvkLOKE.png" },
+  { id: "bc6", category: "book-covers", title: "Cover 6", img: "https://imgur.com/IG1Khm0.png" },
+  { id: "bc7", category: "book-covers", title: "Cover 7", img: "https://imgur.com/NeeDDTD.png" },
+  { id: "bc8", category: "book-covers", title: "Cover 8", img: "https://imgur.com/HI2KDwR.png" },
+  { id: "bc9", category: "book-covers", title: "Cover 9", img: "https://imgur.com/WeB93rC.png" },
+  { id: "bc10", category: "book-covers", title: "Cover 10", img: "https://imgur.com/sm7HiVg.png" },
+  { id: "bc11", category: "book-covers", title: "Cover 11", img: "https://imgur.com/8WO2GAz.png" },
+  { id: "bc12", category: "book-covers", title: "Cover 12", img: "https://imgur.com/yJJmO27.png" },
+  { id: "bc13", category: "book-covers", title: "Cover 13", img: "https://imgur.com/DmcVlwZ.png" },
+  { id: "bc14", category: "book-covers", title: "Cover 14", img: "https://imgur.com/v2ZgTSx.png" },
+  { id: "bc15", category: "book-covers", title: "Cover 15", img: "https://imgur.com/MXdTLyi.png" },
+  { id: "bc16", category: "book-covers", title: "Cover 16", img: "https://imgur.com/tgN2AdH.png" },
+  { id: "bc17", category: "book-covers", title: "Cover 17", img: "https://imgur.com/kI0Yq4B.png" },
+  { id: "bc18", category: "book-covers", title: "Cover 18", img: "https://imgur.com/hYPIwAR.png" },
+  { id: "bc19", category: "book-covers", title: "Cover 19", img: "https://imgur.com/IK3bhtI.png" },
+
+  // CAROUSEL
+  { id: "c1", category: "carousel", title: "Carousel 1", img: "https://imgur.com/qiM7WEO.png" },
+  { id: "c2", category: "carousel", title: "Carousel 2", img: "https://imgur.com/SQGx6Lv.png" },
+  { id: "c3", category: "carousel", title: "Carousel 3", img: "https://imgur.com/YxADID0.png" },
+  { id: "c4", category: "carousel", title: "Carousel 4", img: "https://imgur.com/ZN4qwmi.png" },
+  { id: "c5", category: "carousel", title: "Carousel 5", img: "https://imgur.com/qt3iAg7.png" },
+  { id: "c6", category: "carousel", title: "Carousel 6", img: "https://imgur.com/9LiMrz7.png" },
+  { id: "c7", category: "carousel", title: "Carousel 7", img: "https://imgur.com/F2BsO3S.png" },
+  { id: "c8", category: "carousel", title: "Carousel 8", img: "https://imgur.com/U9Rum8b.png" },
+  { id: "c9", category: "carousel", title: "Carousel 9", img: "https://imgur.com/4x6pA97.png" },
+  { id: "cd1", category: "carousel", isDivider: true, label: { ar: "مجموعة أخرى", en: "Other Collection", tr: "Diğer Koleksiyon" } },
+  { id: "c10", category: "carousel", title: "Carousel 10", img: "https://imgur.com/K8FB51h.png" },
+  { id: "c11", category: "carousel", title: "Carousel 11", img: "https://imgur.com/pQ4ghoV.png" },
+  { id: "c12", category: "carousel", title: "Carousel 12", img: "https://imgur.com/fFlhhUC.png" },
+  { id: "c13", category: "carousel", title: "Carousel 13", img: "https://imgur.com/Zi3hRjp.png" },
+  { id: "c14", category: "carousel", title: "Carousel 14", img: "https://imgur.com/nz7daqU.png" },
+  { id: "c15", category: "carousel", title: "Carousel 15", img: "https://imgur.com/U0EME14.png" },
+  { id: "cd2", category: "carousel", isDivider: true, label: { ar: "نمط مختلف", en: "Different Style", tr: "Farklı Stil" } },
+  { id: "c16", category: "carousel", title: "Carousel 16", img: "https://imgur.com/seObq5A.png" },
+  { id: "c17", category: "carousel", title: "Carousel 17", img: "https://imgur.com/IApo8yZ.png" },
+  { id: "c18", category: "carousel", title: "Carousel 18", img: "https://imgur.com/gmabcrW.png" },
+  { id: "c19", category: "carousel", title: "Carousel 19", img: "https://imgur.com/YjQglIp.png" },
+  { id: "c20", category: "carousel", title: "Carousel 20", img: "https://imgur.com/1ERfczN.png" },
+  { id: "c21", category: "carousel", title: "Carousel 21", img: "https://imgur.com/xGQz2cc.png" },
+  { id: "c22", category: "carousel", title: "Carousel 22", img: "https://imgur.com/EhLHXkf.png" },
+  { id: "cd3", category: "carousel", isDivider: true, label: { ar: "مجموعة جديدة", en: "New Group", tr: "Yeni Grup" } },
+  { id: "c23", category: "carousel", title: "Carousel 23", img: "https://imgur.com/1Ers5v6.png" },
+  { id: "c24", category: "carousel", title: "Carousel 24", img: "https://imgur.com/aFt1LCL.png" },
+  { id: "c25", category: "carousel", title: "Carousel 25", img: "https://imgur.com/2OA4ViR.png" },
+  { id: "c26", category: "carousel", title: "Carousel 26", img: "https://imgur.com/6vjo0Fr.png" },
+  { id: "c27", category: "carousel", title: "Carousel 27", img: "https://imgur.com/tIISc2k.png" },
+  { id: "c28", category: "carousel", title: "Carousel 28", img: "https://imgur.com/gW4SjcN.png" },
 ];
 
 function FolderIcon({ label, previewImg }: { label: string, previewImg?: string }) {
@@ -64,8 +119,6 @@ function FolderIcon({ label, previewImg }: { label: string, previewImg?: string 
 
 function PortfolioContent() {
   const searchParams = useSearchParams();
-  const isEditMode = searchParams.get("edit") === "true";
-  
   const { language, t } = useLanguage();
   const isAr = language === "ar";
   
@@ -73,8 +126,8 @@ function PortfolioContent() {
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
   const [scale, setScale] = useState(1);
   
-  const [categories, setCategories] = useState(INITIAL_CATEGORIES);
-  const [projects, setProjects] = useState(INITIAL_PROJECTS);
+  const [categories] = useState(INITIAL_CATEGORIES);
+  const [projects] = useState(INITIAL_PROJECTS);
 
   const handleZoomIn = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -119,7 +172,7 @@ function PortfolioContent() {
               
               <div className="flex flex-wrap justify-center gap-16 md:gap-24">
                 {currentCategories.map((cat) => {
-                  const preview = projects.find(p => p.category === cat.id)?.img;
+                  const preview = projects.find(p => p.category === cat.id && !p.isDivider)?.img;
                   return (
                     <motion.button
                       key={cat.id}
@@ -164,31 +217,41 @@ function PortfolioContent() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {filteredProjects.map((project, idx) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                    onClick={() => setSelectedImg(project.img)}
-                    className="group relative aspect-[3/4] overflow-hidden glass-card cursor-zoom-in rounded-3xl transition-all duration-700 bg-secondary/30"
-                  >
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10 flex flex-col items-center justify-center p-8 text-center backdrop-blur-[2px]">
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        className="w-12 h-12 bg-gold text-black rounded-full flex items-center justify-center mb-6 shadow-2xl"
-                      >
-                        <Maximize2 size={20} />
-                      </motion.div>
-                      <h4 className={cn("text-2xl text-white font-bold translate-y-4 group-hover:translate-y-0 transition-transform duration-500", isAr ? "font-arabic-hero" : "font-english-hero")}>
-                        {project.title}
-                      </h4>
+                  project.isDivider ? (
+                    <div key={project.id} className="col-span-full py-12 flex items-center gap-8">
+                        <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-gold/20" />
+                        <span className="text-gold/40 text-xs font-bold uppercase tracking-[0.5em] px-4 whitespace-nowrap">
+                            {(project as any).label[language]}
+                        </span>
+                        <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-gold/20" />
                     </div>
-                    <img 
-                      src={project.img} 
-                      alt={project.title}
-                      className="w-full h-full object-contain p-4 transition-all duration-[3000ms] ease-linear grayscale group-hover:grayscale-0"
-                    />
-                  </motion.div>
+                  ) : (
+                    <motion.div
+                        key={project.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.05 }}
+                        onClick={() => setSelectedImg(project.img!)}
+                        className="group relative aspect-[3/4] overflow-hidden glass-card cursor-zoom-in rounded-3xl transition-all duration-700 bg-secondary/30"
+                    >
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10 flex flex-col items-center justify-center p-8 text-center backdrop-blur-[2px]">
+                        <motion.div
+                            whileHover={{ scale: 1.1 }}
+                            className="w-12 h-12 bg-gold text-black rounded-full flex items-center justify-center mb-6 shadow-2xl"
+                        >
+                            <Maximize2 size={20} />
+                        </motion.div>
+                        <h4 className={cn("text-2xl text-white font-bold translate-y-4 group-hover:translate-y-0 transition-transform duration-500", isAr ? "font-arabic-hero" : "font-english-hero")}>
+                            {project.title}
+                        </h4>
+                        </div>
+                        <img 
+                        src={project.img} 
+                        alt={project.title}
+                        className="w-full h-full object-contain p-4 transition-all duration-[3000ms] ease-linear grayscale group-hover:grayscale-0"
+                        />
+                    </motion.div>
+                  )
                 ))}
               </div>
             </motion.div>
