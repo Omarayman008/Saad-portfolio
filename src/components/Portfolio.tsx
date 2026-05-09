@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { X as CloseIcon, Plus, Edit2, Trash2, Save, Image as ImageIcon, ArrowLeft } from "lucide-react";
+import { X as CloseIcon, Plus, ArrowLeft, Maximize2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 const INITIAL_CATEGORIES = {
@@ -40,27 +40,27 @@ function FolderIcon({ label, previewImg }: { label: string, previewImg?: string 
   return (
     <div className="flex flex-col items-center gap-6 w-48 md:w-64 group cursor-pointer">
       <div className="relative w-full aspect-[4/3] transition-transform duration-500 group-hover:scale-105">
-        {/* Back part of folder */}
-        <div className="absolute inset-0 bg-secondary border border-white/5 rounded-2xl shadow-2xl transition-all duration-500" style={{ clipPath: 'polygon(0 15%, 40% 15%, 50% 0, 100% 0, 100% 100%, 0 100%)' }}>
-            <div className="absolute top-2 left-2 right-2 bottom-2 bg-white opacity-5 rounded-xl" />
+        {/* Back part of folder - Using Grey/Beige theme */}
+        <div className="absolute inset-0 bg-[#262626] border border-white/5 rounded-2xl shadow-2xl transition-all duration-500" style={{ clipPath: 'polygon(0 15%, 40% 15%, 50% 0, 100% 0, 100% 100%, 0 100%)' }}>
+            <div className="absolute top-2 left-2 right-2 bottom-2 bg-gold/5 rounded-xl" />
         </div>
         
         {/* Content peeking out */}
-        <div className="absolute top-2 left-4 right-4 h-3/4 bg-white/10 rounded-xl shadow-inner transition-all duration-700 overflow-hidden backdrop-blur-md group-hover:-translate-y-8">
+        <div className="absolute top-2 left-4 right-4 h-3/4 bg-white/5 rounded-xl shadow-inner transition-all duration-700 overflow-hidden backdrop-blur-md group-hover:-translate-y-8">
            {previewImg ? (
-             <img src={previewImg} className="w-full h-full object-cover opacity-60" alt="" />
+             <img src={previewImg} className="w-full h-full object-cover opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-500" alt="" />
            ) : (
              <div className="w-full h-full bg-gradient-to-br from-white/10 to-white/5" />
            )}
         </div>
 
-        {/* Front part of folder */}
-        <div className="absolute bottom-0 left-0 right-0 h-[75%] bg-secondary/95 border border-white/10 rounded-2xl shadow-[0_-10px_30px_rgba(0,0,0,0.5)] transition-transform duration-500 origin-bottom backdrop-blur-md group-hover:rotate-x-[-15deg]">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-white/10 rounded-t-2xl" />
-            <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-2xl" />
+        {/* Front part of folder - Using Beige accents */}
+        <div className="absolute bottom-0 left-0 right-0 h-[75%] bg-[#1a1a1a]/95 border border-gold/10 rounded-2xl shadow-[0_-10px_30px_rgba(0,0,0,0.5)] transition-transform duration-500 origin-bottom backdrop-blur-md group-hover:rotate-x-[-15deg]">
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gold/20 rounded-t-2xl" />
+            <div className="absolute inset-0 bg-gradient-to-b from-gold/5 to-transparent rounded-2xl" />
         </div>
       </div>
-      <span className="text-xl md:text-2xl font-bold tracking-[0.2em] uppercase text-white/50 group-hover:text-white transition-all duration-300">
+      <span className="text-xl md:text-2xl font-bold tracking-[0.2em] uppercase text-text-secondary group-hover:text-gold transition-all duration-300">
         {label}
       </span>
     </div>
@@ -89,16 +89,10 @@ function PortfolioContent() {
     const savedProjs = localStorage.getItem("portfolio_projects");
     if (savedCats) {
         const cats = JSON.parse(savedCats);
-        const cleaned = {
-            ar: cats.ar.filter((c: any) => c.id !== "highcore" && c.id !== "wano" && c.id !== "all"),
-            en: cats.en.filter((c: any) => c.id !== "highcore" && c.id !== "wano" && c.id !== "all"),
-            tr: cats.tr.filter((c: any) => c.id !== "highcore" && c.id !== "wano" && c.id !== "all"),
-        };
-        setCategories(cleaned);
+        setCategories(cats);
     }
     if (savedProjs) {
-        const projs = JSON.parse(savedProjs);
-        setProjects(projs.filter((p: any) => p.category !== "highcore" && p.category !== "wano"));
+        setProjects(JSON.parse(savedProjs));
     }
   }, []);
 
@@ -106,21 +100,6 @@ function PortfolioContent() {
   const filteredProjects = activeCategory 
     ? projects.filter(p => p.category === activeCategory)
     : [];
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, isEditing = false) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (isEditing) {
-          setEditingProject({ ...editingProject, img: reader.result as string });
-        } else {
-          setNewProject({ ...newProject, img: reader.result as string });
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   return (
     <section id="portfolio" className="py-24 relative min-h-[800px] scroll-mt-20">
@@ -136,7 +115,7 @@ function PortfolioContent() {
               className="text-center"
             >
               <h2 className={cn("text-5xl md:text-7xl mb-24", isAr ? "font-arabic-hero" : "font-english-hero")}>
-                <span className="text-white">{t("portfolioTitle")}</span>
+                <span className="text-gold-gradient">{t("portfolioTitle")}</span>
               </h2>
               
               <div className="flex flex-wrap justify-center gap-16 md:gap-24">
@@ -161,17 +140,17 @@ function PortfolioContent() {
           ) : (
             <motion.div
               key="projects"
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.05 }}
-              transition={{ duration: 0.8, ease: "circOut" }}
+              exit={{ opacity: 0, scale: 1.02 }}
+              transition={{ duration: 0.6, ease: "circOut" }}
             >
-              <div className="flex items-center justify-between mb-16 border-b border-white/5 pb-8">
+              <div className="flex items-center justify-between mb-16 border-b border-gold/5 pb-8">
                 <button 
                   onClick={() => setActiveCategory(null)}
-                  className="flex items-center gap-4 text-white/50 hover:text-white transition-all group"
+                  className="flex items-center gap-4 text-text-secondary hover:text-gold transition-all group"
                 >
-                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-white group-hover:bg-white group-hover:text-black transition-all">
+                  <div className="w-12 h-12 rounded-full border border-gold/10 flex items-center justify-center group-hover:border-gold group-hover:bg-gold group-hover:text-black transition-all">
                     <ArrowLeft size={20} />
                   </div>
                   <span className="text-xs uppercase tracking-[0.4em] font-bold">
@@ -182,7 +161,7 @@ function PortfolioContent() {
                   {currentCategories.find(c => c.id === activeCategory)?.label}
                 </h3>
                 {isEditMode ? (
-                  <button onClick={() => setIsAddingProject(true)} className="px-6 py-3 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-xl">
+                  <button onClick={() => setIsAddingProject(true)} className="px-6 py-3 bg-gold text-black text-xs font-bold uppercase tracking-widest rounded-xl">
                     {isAr ? "إضافة عمل" : "Add Project"}
                   </button>
                 ) : <div className="w-24" />}
@@ -192,27 +171,28 @@ function PortfolioContent() {
                 {filteredProjects.map((project, idx) => (
                   <motion.div
                     key={project.id}
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.1 }}
+                    transition={{ delay: idx * 0.05 }}
                     onClick={() => setSelectedImg(project.img)}
-                    className="group relative aspect-[3/4] overflow-hidden glass-card cursor-zoom-in rounded-3xl transition-all duration-700"
+                    className="group relative aspect-[3/4] overflow-hidden glass-card cursor-zoom-in rounded-3xl transition-all duration-700 bg-secondary/30"
                   >
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10 flex flex-col items-center justify-center p-8 text-center backdrop-blur-md">
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10 flex flex-col items-center justify-center p-8 text-center backdrop-blur-[2px]">
                       <motion.div
                         whileHover={{ scale: 1.1 }}
-                        className="w-16 h-16 bg-white text-black rounded-full flex items-center justify-center mb-8 shadow-2xl"
+                        className="w-12 h-12 bg-gold text-black rounded-full flex items-center justify-center mb-6 shadow-2xl"
                       >
-                        <Plus className="w-8 h-8" />
+                        <Maximize2 size={20} />
                       </motion.div>
-                      <div className="translate-y-6 group-hover:translate-y-0 transition-transform duration-700">
-                        <h4 className={cn("text-3xl text-white font-bold", isAr ? "font-arabic-hero" : "font-english-hero")}>{project.title}</h4>
-                      </div>
+                      <h4 className={cn("text-2xl text-white font-bold translate-y-4 group-hover:translate-y-0 transition-transform duration-500", isAr ? "font-arabic-hero" : "font-english-hero")}>
+                        {project.title}
+                      </h4>
                     </div>
+                    {/* Outer view: Using object-contain to 'fit' the image */}
                     <img 
                       src={project.img} 
                       alt={project.title}
-                      className="w-full h-full object-cover object-top transition-all duration-[3000ms] ease-linear group-hover:object-bottom filter grayscale group-hover:grayscale-0"
+                      className="w-full h-full object-contain p-4 transition-all duration-[3000ms] ease-linear grayscale group-hover:grayscale-0"
                     />
                   </motion.div>
                 ))}
@@ -224,8 +204,29 @@ function PortfolioContent() {
 
       <AnimatePresence>
         {selectedImg && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedImg(null)} className="fixed inset-0 z-[100] bg-black/98 backdrop-blur-3xl flex items-center justify-center p-4 md:p-12 cursor-zoom-out">
-            <motion.img initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} transition={{ type: "spring", damping: 25 }} src={selectedImg} className="max-w-full max-h-full object-contain rounded-2xl" />
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            onClick={() => setSelectedImg(null)} 
+            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl flex items-center justify-center p-4 md:p-20 cursor-zoom-out"
+          >
+            <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                className="relative max-w-5xl w-full max-h-full flex items-center justify-center"
+            >
+                <img src={selectedImg} className="max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/5" />
+                <button 
+                    onClick={() => setSelectedImg(null)}
+                    className="absolute -top-12 right-0 text-white/50 hover:text-white transition-all flex items-center gap-2 text-xs uppercase tracking-widest"
+                >
+                    <CloseIcon size={18} />
+                    {isAr ? "إغلاق" : "Close"}
+                </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
