@@ -17,17 +17,17 @@ export default function Hero() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.1,
         delayChildren: 0.2,
       },
     },
   } as const;
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 100, filter: "blur(10px)" },
+    hidden: { opacity: 0, x: isAr ? 50 : -50, filter: "blur(10px)" },
     visible: { 
       opacity: 1, 
-      y: 0, 
+      x: 0, 
       filter: "blur(0px)",
       transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } 
     },
@@ -35,83 +35,74 @@ export default function Hero() {
 
   return (
     <section id="home" className="relative min-h-screen flex flex-col justify-center overflow-hidden glow-mesh">
-      {/* Inflated Floating Elements */}
-      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-gold/5 rounded-full blur-[120px] animate-float-slow" />
-      <div className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-white/5 rounded-full blur-[150px] animate-float-slow [animation-delay:2s]" />
+      {/* Background Decorative Elements */}
+      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-gold/5 rounded-full blur-[120px] animate-float-slow z-0" />
+      <div className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-white/5 rounded-full blur-[150px] animate-float-slow [animation-delay:2s] z-0" />
       
-      <div className="container mx-auto px-6 md:px-12 relative z-20 pt-32 pb-20 flex flex-col items-center text-center">
+      <div className="container mx-auto px-6 md:px-12 relative z-20 pt-32 pb-20">
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-5xl"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center"
         >
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-12">
-            <motion.img 
-              initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          {/* Left Column: Logo (Parallel to text height) */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8, x: -50 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+            className="flex justify-center lg:justify-start order-2 lg:order-1"
+          >
+            <img 
               src="https://imgur.com/gfGxLxQ.png" 
               alt="Saad Nejjai Logo" 
-              className="h-32 md:h-48 w-auto object-contain drop-shadow-[0_0_30px_rgba(210,180,140,0.2)]"
+              className="w-full max-w-[300px] md:max-w-[450px] lg:max-w-full h-auto object-contain drop-shadow-[0_0_50px_rgba(210,180,140,0.15)]"
             />
-            
-            <h1 className={cn(
-              "text-6xl md:text-8xl lg:text-[9rem] leading-[1.1] tracking-tighter flex flex-wrap justify-center gap-x-6",
-              titleFont
-            )}>
-              <motion.span
-                initial={{ y: "100%", opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                className="text-text-primary"
-              >
-                {isAr ? "سعد " : "Saad "}
-              </motion.span>
-              <motion.span
-                initial={{ y: "100%", opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="text-gold-gradient relative"
-              >
-                {isAr ? "نجاعي" : "Nejjai"}
-              </motion.span>
-            </h1>
-          </div>
-
-          <motion.div variants={itemVariants} className="max-w-2xl mx-auto relative">
-            <p className={cn("text-2xl md:text-4xl text-text-primary mb-6", titleFont)}>
-              {t("tagline")}
-            </p>
-            <p className={cn("text-lg md:text-xl text-text-secondary leading-relaxed mb-16", bodyFont)}>
-              {t("subTagline")}
-            </p>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-8 justify-center items-center mt-8">
-            <motion.a 
-              href="#portfolio" 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+          {/* Right Column: Text Content (Right Aligned) */}
+          <div className="flex flex-col items-center lg:items-end text-center lg:text-right order-1 lg:order-2">
+            <motion.h1 
+              variants={itemVariants}
               className={cn(
-                "group relative px-12 py-5 bg-gold text-primary overflow-hidden transition-all duration-500 rounded-full shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_50px_rgba(255,255,255,0.2)] pill-glow",
-                bodyFont,
-                "text-lg font-bold uppercase tracking-widest"
+                "text-7xl md:text-8xl lg:text-[11rem] leading-[0.9] tracking-tighter mb-4",
+                titleFont
               )}
             >
-              <span className="relative z-10 flex items-center gap-4">
-                {t("viewWork")}
-                <motion.span
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ repeat: Infinity, duration: 1.5 }}
-                  className="bg-primary/10 rounded-full p-1"
-                >
-                  <ArrowDownRight size={20} />
-                </motion.span>
-              </span>
-              <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
-            </motion.a>
-          </motion.div>
+              <div className="text-text-primary mb-2">
+                {isAr ? "سعد" : "Saad"}
+              </div>
+              <div className="text-gold-gradient">
+                {isAr ? "نجاعي" : "Nejjai"}
+              </div>
+            </motion.h1>
+
+            <motion.div variants={itemVariants} className="mt-8 space-y-6">
+              <p className={cn("text-3xl md:text-5xl text-text-primary font-medium", titleFont)}>
+                {t("tagline")}
+              </p>
+              <p className={cn("text-lg md:text-2xl text-text-secondary leading-relaxed max-w-xl lg:ml-auto", bodyFont)}>
+                {t("subTagline")}
+              </p>
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="mt-12">
+              <motion.a 
+                href="#portfolio" 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={cn(
+                  "group relative px-14 py-6 bg-gold text-primary overflow-hidden transition-all duration-500 rounded-full shadow-[0_0_30px_rgba(210,180,140,0.2)] hover:shadow-[0_0_60px_rgba(210,180,140,0.4)]",
+                  bodyFont,
+                  "text-xl font-bold uppercase tracking-widest flex items-center gap-4"
+                )}
+              >
+                <span className="relative z-10">{t("viewWork")}</span>
+                <ArrowDownRight size={24} className="relative z-10" />
+                <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
+              </motion.a>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
 
@@ -119,7 +110,7 @@ export default function Hero() {
         initial={{ height: 0 }}
         animate={{ height: "100%" }}
         transition={{ duration: 2, ease: "easeInOut" }}
-        className="absolute top-0 right-10 w-[1px] bg-gradient-to-b from-transparent via-gold/20 to-transparent hidden lg:block"
+        className="absolute top-0 left-10 w-[1px] bg-gradient-to-b from-transparent via-gold/20 to-transparent hidden lg:block"
       />
     </section>
   );
