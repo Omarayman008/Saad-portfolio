@@ -268,18 +268,18 @@ function PortfolioContent() {
             onClick={() => setSelectedImg(null)} 
             className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl flex items-center justify-center p-4 md:p-20 cursor-zoom-out group/modal"
           >
-            <div className="absolute top-10 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4 bg-white/[0.02] backdrop-blur-3xl p-2 rounded-2xl border border-white/5 opacity-0 group-hover/modal:opacity-100 transition-all duration-700">
-                <button onClick={handleZoomOut} className="p-3 hover:bg-white/5 rounded-xl text-white/30 hover:text-white transition-all">
+            <div className="absolute top-10 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4 bg-[#1a1a1a]/80 backdrop-blur-3xl p-2 rounded-2xl border border-gold/20 shadow-2xl transition-all duration-500">
+                <button onClick={handleZoomOut} className="p-3 hover:bg-gold/10 rounded-xl text-gold/60 hover:text-gold transition-all">
                     <ZoomOut size={20} />
                 </button>
-                <span className="text-white/20 text-[10px] font-bold w-12 text-center uppercase tracking-widest">
+                <span className="text-gold/40 text-[10px] font-bold w-12 text-center uppercase tracking-widest">
                     {Math.round(scale * 100)}%
                 </span>
-                <button onClick={handleZoomIn} className="p-3 hover:bg-white/5 rounded-xl text-white/30 hover:text-white transition-all">
+                <button onClick={handleZoomIn} className="p-3 hover:bg-gold/10 rounded-xl text-gold/60 hover:text-gold transition-all">
                     <ZoomIn size={20} />
                 </button>
-                <div className="w-[1px] h-6 bg-white/5" />
-                <button onClick={handleResetZoom} className="p-3 hover:bg-white/5 rounded-xl text-white/30 hover:text-white transition-all">
+                <div className="w-[1px] h-6 bg-gold/10" />
+                <button onClick={handleResetZoom} className="p-3 hover:bg-gold/10 rounded-xl text-gold/60 hover:text-gold transition-all">
                     <RotateCcw size={20} />
                 </button>
             </div>
