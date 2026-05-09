@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { X as CloseIcon, Plus, ArrowLeft, Maximize2 } from "lucide-react";
+import { X as CloseIcon, Plus, ArrowLeft, Maximize2, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 const INITIAL_CATEGORIES = {
@@ -40,12 +40,9 @@ function FolderIcon({ label, previewImg }: { label: string, previewImg?: string 
   return (
     <div className="flex flex-col items-center gap-6 w-48 md:w-64 group cursor-pointer">
       <div className="relative w-full aspect-[4/3] transition-transform duration-500 group-hover:scale-105">
-        {/* Back part of folder - Using Grey/Beige theme */}
         <div className="absolute inset-0 bg-[#262626] border border-white/5 rounded-2xl shadow-2xl transition-all duration-500" style={{ clipPath: 'polygon(0 15%, 40% 15%, 50% 0, 100% 0, 100% 100%, 0 100%)' }}>
             <div className="absolute top-2 left-2 right-2 bottom-2 bg-gold/5 rounded-xl" />
         </div>
-        
-        {/* Content peeking out */}
         <div className="absolute top-2 left-4 right-4 h-3/4 bg-white/5 rounded-xl shadow-inner transition-all duration-700 overflow-hidden backdrop-blur-md group-hover:-translate-y-8">
            {previewImg ? (
              <img src={previewImg} className="w-full h-full object-cover opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-500" alt="" />
@@ -53,8 +50,6 @@ function FolderIcon({ label, previewImg }: { label: string, previewImg?: string 
              <div className="w-full h-full bg-gradient-to-br from-white/10 to-white/5" />
            )}
         </div>
-
-        {/* Front part of folder - Using Beige accents */}
         <div className="absolute bottom-0 left-0 right-0 h-[75%] bg-[#1a1a1a]/95 border border-gold/10 rounded-2xl shadow-[0_-10px_30px_rgba(0,0,0,0.5)] transition-transform duration-500 origin-bottom backdrop-blur-md group-hover:rotate-x-[-15deg]">
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gold/20 rounded-t-2xl" />
             <div className="absolute inset-0 bg-gradient-to-b from-gold/5 to-transparent rounded-2xl" />
@@ -76,25 +71,29 @@ function PortfolioContent() {
   
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
+  const [scale, setScale] = useState(1);
   
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
   const [projects, setProjects] = useState(INITIAL_PROJECTS);
-  const [isAddingProject, setIsAddingProject] = useState(false);
-  const [editingProject, setEditingProject] = useState<any | null>(null);
-  
-  const [newProject, setNewProject] = useState({ title: "", category: "logos", img: "" });
+
+  const handleZoomIn = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setScale(prev => Math.min(prev + 0.25, 3));
+  };
+
+  const handleZoomOut = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setScale(prev => Math.max(prev - 0.25, 0.5));
+  };
+
+  const handleResetZoom = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setScale(1);
+  };
 
   useEffect(() => {
-    const savedCats = localStorage.getItem("portfolio_categories");
-    const savedProjs = localStorage.getItem("portfolio_projects");
-    if (savedCats) {
-        const cats = JSON.parse(savedCats);
-        setCategories(cats);
-    }
-    if (savedProjs) {
-        setProjects(JSON.parse(savedProjs));
-    }
-  }, []);
+    if (!selectedImg) setScale(1);
+  }, [selectedImg]);
 
   const currentCategories = categories[language] || categories.en;
   const filteredProjects = activeCategory 
@@ -160,11 +159,7 @@ function PortfolioContent() {
                 <h3 className={cn("text-4xl text-white font-bold", isAr ? "font-arabic-hero" : "font-english-hero")}>
                   {currentCategories.find(c => c.id === activeCategory)?.label}
                 </h3>
-                {isEditMode ? (
-                  <button onClick={() => setIsAddingProject(true)} className="px-6 py-3 bg-gold text-black text-xs font-bold uppercase tracking-widest rounded-xl">
-                    {isAr ? "إضافة عمل" : "Add Project"}
-                  </button>
-                ) : <div className="w-24" />}
+                <div className="w-24" />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -188,7 +183,6 @@ function PortfolioContent() {
                         {project.title}
                       </h4>
                     </div>
-                    {/* Outer view: Using object-contain to 'fit' the image */}
                     <img 
                       src={project.img} 
                       alt={project.title}
@@ -211,22 +205,44 @@ function PortfolioContent() {
             onClick={() => setSelectedImg(null)} 
             className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl flex items-center justify-center p-4 md:p-20 cursor-zoom-out"
           >
+            <div className="absolute top-10 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4 bg-white/5 backdrop-blur-md p-2 rounded-2xl border border-white/10">
+                <button onClick={handleZoomOut} className="p-3 hover:bg-white/10 rounded-xl text-white transition-all">
+                    <ZoomOut size={20} />
+                </button>
+                <span className="text-white/50 text-xs font-bold w-12 text-center uppercase tracking-widest">
+                    {Math.round(scale * 100)}%
+                </span>
+                <button onClick={handleZoomIn} className="p-3 hover:bg-white/10 rounded-xl text-white transition-all">
+                    <ZoomIn size={20} />
+                </button>
+                <div className="w-[1px] h-6 bg-white/10" />
+                <button onClick={handleResetZoom} className="p-3 hover:bg-white/10 rounded-xl text-white transition-all">
+                    <RotateCcw size={20} />
+                </button>
+            </div>
+
             <motion.div
                 initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
+                animate={{ scale: scale, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                className="relative max-w-5xl w-full max-h-full flex items-center justify-center"
+                className="relative max-w-5xl w-full max-h-full flex items-center justify-center overflow-auto scrollbar-hide"
+                style={{ cursor: scale > 1 ? 'grab' : 'zoom-out' }}
             >
-                <img src={selectedImg} className="max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/5" />
-                <button 
-                    onClick={() => setSelectedImg(null)}
-                    className="absolute -top-12 right-0 text-white/50 hover:text-white transition-all flex items-center gap-2 text-xs uppercase tracking-widest"
-                >
-                    <CloseIcon size={18} />
-                    {isAr ? "إغلاق" : "Close"}
-                </button>
+                <img 
+                    src={selectedImg} 
+                    className="max-w-full max-h-full object-contain rounded-xl shadow-2xl border border-white/5 transition-transform duration-300"
+                    draggable={false}
+                />
             </motion.div>
+
+            <button 
+                onClick={() => setSelectedImg(null)}
+                className="absolute top-10 right-10 text-white/50 hover:text-white transition-all flex items-center gap-2 text-xs uppercase tracking-widest z-[110]"
+            >
+                <CloseIcon size={18} />
+                {isAr ? "إغلاق" : "Close"}
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
