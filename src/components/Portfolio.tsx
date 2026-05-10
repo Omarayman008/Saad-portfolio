@@ -4,19 +4,33 @@ import { useState, useEffect, Suspense } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { X as CloseIcon, Plus, ArrowLeft, Maximize2, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
+import { 
+  X as CloseIcon, 
+  Plus, 
+  ArrowLeft, 
+  Maximize2, 
+  ZoomIn, 
+  ZoomOut, 
+  RotateCcw,
+  Settings,
+  Trash2,
+  Edit3,
+  Save,
+  Image as ImageIcon,
+  FolderPlus
+} from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 const INITIAL_CATEGORIES = {
   ar: [
     { id: "logos", label: "شعارات" },
     { id: "book-covers", label: "أغلفة كتب" },
-    { id: "carousel", label: "كاروسيل" },
+    { id: "carousel", label: "كاروسيل & مونتاج" },
   ],
   en: [
     { id: "logos", label: "Logos" },
     { id: "book-covers", label: "Book Covers" },
-    { id: "carousel", label: "Carousel" },
+    { id: "carousel", label: "Carousel & Montage" },
   ],
   tr: [
     { id: "logos", label: "Logolar" },
@@ -39,7 +53,7 @@ const INITIAL_PROJECTS = [
   { id: "l8", category: "logos", title: "Logo 8", img: "https://imgur.com/ltortDs.png" },
   { id: "l9", category: "logos", title: "Logo 9", img: "https://imgur.com/QXUmR11.png" },
 
-  // BOOK COVERS (19)
+  // BOOK COVERS
   { id: "bc1", category: "book-covers", title: "Cover 1", img: "https://imgur.com/DuWQXny.png" },
   { id: "bc2", category: "book-covers", title: "Cover 2", img: "https://imgur.com/AP6R51v.png" },
   { id: "bc3", category: "book-covers", title: "Cover 3", img: "https://imgur.com/CgGUsGb.png" },
@@ -94,9 +108,26 @@ const INITIAL_PROJECTS = [
   { id: "c28", category: "carousel", title: "Carousel 28", img: "https://imgur.com/gW4SjcN.png" },
 ];
 
-function FolderIcon({ label, previewImgs, isAr }: { label: string, previewImgs: string[], isAr: boolean }) {
+function FolderIcon({ label, previewImgs, isAr, isAdmin, onEdit, onDelete }: { 
+  label: string, 
+  previewImgs: string[], 
+  isAr: boolean,
+  isAdmin?: boolean,
+  onEdit?: () => void,
+  onDelete?: () => void
+}) {
   return (
-    <div className="flex flex-col items-center gap-8 w-64 md:w-80 group cursor-pointer">
+    <div className="flex flex-col items-center gap-8 w-64 md:w-80 group cursor-pointer relative">
+      {isAdmin && (
+        <div className="absolute -top-4 -right-4 z-40 flex gap-2">
+          <button onClick={(e) => { e.stopPropagation(); onEdit?.(); }} className="w-10 h-10 bg-gold text-black rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+            <Edit3 size={16} />
+          </button>
+          <button onClick={(e) => { e.stopPropagation(); onDelete?.(); }} className="w-10 h-10 bg-red-500 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+            <Trash2 size={16} />
+          </button>
+        </div>
+      )}
       <div className="relative w-full aspect-[16/10]">
         <div className="absolute inset-0 flex items-center justify-center">
             <div className="absolute w-[85%] h-[85%] bg-[#1a1a1a] border border-white/5 rounded-2xl shadow-2xl transition-all duration-700 group-hover:-translate-y-12 group-hover:-rotate-6 group-hover:scale-105 overflow-hidden">
@@ -126,14 +157,32 @@ function FolderIcon({ label, previewImgs, isAr }: { label: string, previewImgs: 
 
 function PortfolioContent() {
   const { language, t } = useLanguage();
+  const searchParams = useSearchParams();
   const isAr = language === "ar";
+  const isAdmin = searchParams.get("edit") === "true";
   
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
   const [scale, setScale] = useState(1);
   
-  const [categories] = useState(INITIAL_CATEGORIES);
-  const [projects] = useState(INITIAL_PROJECTS);
+  // States for Admin Management
+  const [categories, setCategories] = useState<any>(null);
+  const [projects, setProjects] = useState<any[]>([]);
+
+  // Initialize data from localStorage or fallback to defaults
+  useEffect(() => {
+    const savedCats = localStorage.getItem("saad_categories");
+    const savedProjects = localStorage.getItem("saad_projects");
+    setCategories(savedCats ? JSON.parse(savedCats) : INITIAL_CATEGORIES);
+    setProjects(savedProjects ? JSON.parse(savedProjects) : INITIAL_PROJECTS);
+  }, []);
+
+  const saveToLocal = (newCats: any, newProjects: any[]) => {
+    setCategories(newCats);
+    setProjects(newProjects);
+    localStorage.setItem("saad_categories", JSON.stringify(newCats));
+    localStorage.setItem("saad_projects", JSON.stringify(newProjects));
+  };
 
   const handleZoomIn = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -154,13 +203,78 @@ function PortfolioContent() {
     if (!selectedImg) setScale(1);
   }, [selectedImg]);
 
+  if (!categories) return null;
+
   const currentCategories = categories[language] || categories.en;
   const filteredProjects = activeCategory 
     ? projects.filter(p => p.category === activeCategory)
     : [];
 
+  // ADMIN ACTIONS
+  const addNewProject = () => {
+    const title = prompt(isAr ? "عنوان الصورة:" : "Image Title:");
+    const url = prompt(isAr ? "رابط الصورة (URL):" : "Image URL:");
+    if (!title || !url || !activeCategory) return;
+    
+    const newProject = {
+      id: `p-${Date.now()}`,
+      category: activeCategory,
+      title,
+      img: url
+    };
+    saveToLocal(categories, [newProject, ...projects]);
+  };
+
+  const deleteProject = (id: string) => {
+    if (!confirm(isAr ? "هل أنت متأكد من الحذف؟" : "Are you sure you want to delete this?")) return;
+    saveToLocal(categories, projects.filter(p => p.id !== id));
+  };
+
+  const addNewFolder = () => {
+    const id = prompt("Folder ID (English):");
+    const labelAr = prompt("Folder Label (Arabic):");
+    const labelEn = prompt("Folder Label (English):");
+    const labelTr = prompt("Folder Label (Turkish):");
+
+    if (!id || !labelAr || !labelEn || !labelTr) return;
+
+    const newCats = {
+        ar: [...categories.ar, { id, label: labelAr }],
+        en: [...categories.en, { id, label: labelEn }],
+        tr: [...categories.tr, { id, label: labelTr }],
+    };
+    saveToLocal(newCats, projects);
+  };
+
+  const exportConfig = () => {
+    const data = { categories, projects };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "saad_portfolio_config.json";
+    a.click();
+    alert(isAr ? "تم تصدير الإعدادات. أرسل الملف لي لتحديث الموقع نهائياً." : "Config exported. Send the file to me to update the site permanently.");
+  };
+
   return (
     <section id="portfolio" className="py-24 relative min-h-[800px] scroll-mt-20">
+      {isAdmin && (
+        <div className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4">
+          <motion.button 
+            initial={{ scale: 0 }} animate={{ scale: 1 }}
+            onClick={exportConfig}
+            className="bg-gold text-black px-6 py-4 rounded-2xl font-bold shadow-2xl flex items-center gap-3 hover:scale-105 transition-transform"
+          >
+            <Save size={20} />
+            {isAr ? "حفظ وتصدير الإعدادات" : "Save & Export Config"}
+          </motion.button>
+          <div className="bg-[#1a1a1a]/90 backdrop-blur-xl p-4 rounded-3xl border border-gold/20 text-white text-xs text-center font-bold uppercase tracking-widest">
+            {isAr ? "وضع الإدارة مفعل" : "Admin Mode Active"}
+          </div>
+        </div>
+      )}
+
       <div className="container mx-auto px-6 md:px-12">
         <AnimatePresence mode="wait">
           {!activeCategory ? (
@@ -177,7 +291,7 @@ function PortfolioContent() {
               </h2>
               
               <div className="flex flex-wrap justify-center gap-16 md:gap-24">
-                {currentCategories.map((cat) => {
+                {currentCategories.map((cat: any) => {
                   const preview = projects
                     .filter(p => p.category === cat.id && !p.isDivider)
                     .slice(0, 3)
@@ -193,10 +307,29 @@ function PortfolioContent() {
                         label={cat.label} 
                         previewImgs={preview}
                         isAr={isAr}
+                        isAdmin={isAdmin}
+                        onDelete={() => {
+                            const newCats = {
+                                ar: categories.ar.filter((c: any) => c.id !== cat.id),
+                                en: categories.en.filter((c: any) => c.id !== cat.id),
+                                tr: categories.tr.filter((c: any) => c.id !== cat.id),
+                            };
+                            saveToLocal(newCats, projects.filter(p => p.category !== cat.id));
+                        }}
                       />
                     </motion.button>
                   );
                 })}
+
+                {isAdmin && (
+                    <button 
+                        onClick={addNewFolder}
+                        className="w-64 md:w-80 aspect-[16/10] border-2 border-dashed border-white/10 rounded-[2rem] flex flex-col items-center justify-center gap-4 text-white/30 hover:text-gold hover:border-gold/30 transition-all group"
+                    >
+                        <FolderPlus size={40} className="group-hover:scale-110 transition-transform" />
+                        <span className="text-xs uppercase tracking-widest font-bold">{isAr ? "إضافة مجلد جديد" : "Add New Folder"}</span>
+                    </button>
+                )}
               </div>
             </motion.div>
           ) : (
@@ -219,9 +352,20 @@ function PortfolioContent() {
                     {isAr ? "العودة للمجلدات" : "Back to Folders"}
                   </span>
                 </button>
-                <h3 className={cn("text-4xl text-white font-bold", isAr ? "font-arabic-body" : "font-english-body")}>
-                  {currentCategories.find(c => c.id === activeCategory)?.label}
-                </h3>
+                <div className="flex items-center gap-8">
+                    <h3 className={cn("text-4xl text-white font-bold", isAr ? "font-arabic-body" : "font-english-body")}>
+                    {currentCategories.find((c: any) => c.id === activeCategory)?.label}
+                    </h3>
+                    {isAdmin && (
+                        <button 
+                            onClick={addNewProject}
+                            className="bg-gold text-black px-6 py-2 rounded-xl font-bold text-xs flex items-center gap-2 hover:scale-105 transition-transform"
+                        >
+                            <Plus size={16} />
+                            {isAr ? "إضافة صورة" : "Add Image"}
+                        </button>
+                    )}
+                </div>
                 <div className="w-24" />
               </div>
 
@@ -241,19 +385,26 @@ function PortfolioContent() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.05 }}
-                        onClick={() => setSelectedImg(project.img!)}
                         className="group relative aspect-[3/4] overflow-hidden glass-card cursor-zoom-in rounded-3xl transition-all duration-700 bg-secondary/30"
                     >
-                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10 flex flex-col items-center justify-center p-8 text-center backdrop-blur-[2px]">
-                        <motion.div
-                            whileHover={{ scale: 1.1 }}
-                            className="w-12 h-12 bg-gold text-black rounded-full flex items-center justify-center mb-6 shadow-2xl"
-                        >
-                            <Maximize2 size={20} />
-                        </motion.div>
-                        <h4 className={cn("text-2xl text-white font-bold translate-y-4 group-hover:translate-y-0 transition-transform duration-500", isAr ? "font-arabic-body" : "font-english-body")}>
-                            {project.title}
-                        </h4>
+                        {isAdmin && (
+                            <button 
+                                onClick={(e) => { e.stopPropagation(); deleteProject(project.id); }}
+                                className="absolute top-4 right-4 z-40 w-10 h-10 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                                <Trash2 size={16} />
+                            </button>
+                        )}
+                        <div onClick={() => setSelectedImg(project.img!)} className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10 flex flex-col items-center justify-center p-8 text-center backdrop-blur-[2px]">
+                            <motion.div
+                                whileHover={{ scale: 1.1 }}
+                                className="w-12 h-12 bg-gold text-black rounded-full flex items-center justify-center mb-6 shadow-2xl"
+                            >
+                                <Maximize2 size={20} />
+                            </motion.div>
+                            <h4 className={cn("text-2xl text-white font-bold translate-y-4 group-hover:translate-y-0 transition-transform duration-500", isAr ? "font-arabic-body" : "font-english-body")}>
+                                {project.title}
+                            </h4>
                         </div>
                         <img 
                         src={project.img} 
