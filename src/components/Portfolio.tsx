@@ -20,14 +20,17 @@ import {
   FolderPlus,
   Upload,
   Loader2,
-  Key
+  Key,
+  WifiOff,
+  AlertTriangle,
+  Clock
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 // Default IMGBB API Key (Provided by Omar)
 const DEFAULT_IMGBB_KEY = "5619158806d52f4bc46bd3d373b6ccde";
-
 const ERROR_EMAILS = ["work@saadnejjai.com.tr", "omarsharq90@gmail.com"];
+const UPLOAD_TIMEOUT = 30000; // 30 seconds for "turtle internet"
 
 const INITIAL_CATEGORIES = {
   ar: [
@@ -173,6 +176,7 @@ function PortfolioContent() {
   const [scale, setScale] = useState(1);
   const [isUploading, setIsUploading] = useState(false);
   const [apiKey, setApiKey] = useState(DEFAULT_IMGBB_KEY);
+  const [isOnline, setIsOnline] = useState(true);
   
   // States for Admin Management
   const [categories, setCategories] = useState<any>(null);
@@ -187,6 +191,15 @@ function PortfolioContent() {
     setCategories(savedCats ? JSON.parse(savedCats) : INITIAL_CATEGORIES);
     setProjects(savedProjects ? JSON.parse(savedProjects) : INITIAL_PROJECTS);
     if (savedKey) setApiKey(savedKey);
+
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
   }, []);
 
   const saveToLocal = (newCats: any, newProjects: any[]) => {
@@ -224,9 +237,6 @@ function PortfolioContent() {
 
   const reportError = async (errorType: string, details: string) => {
     console.error(`[Portfolio Error] ${errorType}:`, details);
-    
-    // In a real production environment with a backend, you'd send this to your logging service.
-    // For now, we'll notify the admin and provide a quick link to report to Omar/Saad.
     const subject = encodeURIComponent(`Portfolio Error Report: ${errorType}`);
     const body = encodeURIComponent(`An error occurred in Saad's Portfolio.\n\nType: ${errorType}\nDetails: ${details}\nTime: ${new Date().toISOString()}`);
     const mailto = `mailto:${ERROR_EMAILS.join(',')}?subject=${subject}&body=${body}`;
@@ -241,16 +251,26 @@ function PortfolioContent() {
     const file = e.target.files?.[0];
     if (!file || !activeCategory) return;
 
+    if (!navigator.onLine) {
+        alert(isAr ? "أنت غير متصل بالإنترنت حالياً! يرجى التحقق من الشبكة." : "You are offline! Please check your connection.");
+        return;
+    }
+
     setIsUploading(true);
     const formData = new FormData();
     formData.append("image", file);
 
-    try {
-      // Use the current apiKey from state
-      const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+    const uploadPromise = fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
         method: "POST",
         body: formData,
-      });
+    });
+
+    const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error("TIMEOUT")), UPLOAD_TIMEOUT)
+    );
+
+    try {
+      const response = await Promise.race([uploadPromise, timeoutPromise]) as Response;
       const result = await response.json();
 
       if (result.success) {
@@ -268,9 +288,13 @@ function PortfolioContent() {
         reportError("ImgBB Upload Failure", JSON.stringify(result));
       }
     } catch (error: any) {
-      console.error("Upload error:", error);
-      alert(isAr ? "خطأ في الاتصال بالسيرفر. تأكد من جودة الإنترنت." : "Server connection error. Please check your internet.");
-      reportError("Network/CORS Error", error?.message || "Unknown error");
+      if (error.message === "TIMEOUT") {
+        alert(isAr ? "النت بطيء جداً (نت سلحفاة 🐢).. الرفع استغرق وقتاً طويلاً. يرجى المحاولة مرة أخرى." : "Super slow internet (Turtle speed 🐢).. Upload timed out. Please try again.");
+      } else {
+        console.error("Upload error:", error);
+        alert(isAr ? "حدث عطل غير متوقع. قد يكون بسبب ريل واي أو انقطاع مفاجئ." : "Unexpected failure. Might be Railway instability or a sudden drop.");
+        reportError("Critical Upload Error", error?.message || "Unknown error");
+      }
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -345,6 +369,16 @@ function PortfolioContent() {
         onChange={handleFileUpload} 
       />
       
+      {!isOnline && (
+        <motion.div 
+            initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-[150] bg-red-500 text-white px-6 py-3 rounded-2xl flex items-center gap-3 shadow-2xl font-bold"
+        >
+            <WifiOff size={20} />
+            {isAr ? "أنت غير متصل بالإنترنت حالياً!" : "You are currently offline!"}
+        </motion.div>
+      )}
+
       {isAdmin && (
         <div className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4 items-end">
           <motion.button 
