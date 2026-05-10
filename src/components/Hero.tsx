@@ -86,12 +86,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      <motion.div
-        initial={{ height: 0 }}
-        animate={{ height: "100%" }}
-        transition={{ duration: 2, ease: "easeInOut" }}
-        className="absolute top-0 right-10 w-[1px] bg-gradient-to-b from-transparent via-gold/10 to-transparent hidden lg:block"
-      />
+
     </section>
   );
 }

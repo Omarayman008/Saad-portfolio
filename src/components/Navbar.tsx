@@ -43,21 +43,9 @@ export default function Navbar() {
         scrolled ? "py-4 bg-black/50 backdrop-blur-2xl border-b border-white/5" : "py-8"
       )}
     >
-      <div className="container mx-auto px-6 md:px-12 flex justify-between items-center flex-row">
-        {/* Logo on the right with sand/beige colors and dusty effect */}
-        <motion.div 
-          whileHover={{ scale: 1.05 }}
-          className="relative h-10 w-auto cursor-pointer"
-        >
-          <img 
-            src="https://imgur.com/gfGxLxQ.png" 
-            alt="Saad Nejjai" 
-            className="h-full w-auto object-contain drop-shadow-[0_0_15px_rgba(255,200,61,0.3)]"
-          />
-        </motion.div>
-
-        {/* Links and Language on the left */}
-        <div className="flex items-center gap-10">
+      <div className="container mx-auto px-6 md:px-12 relative flex justify-between items-center flex-row">
+        {/* Left Side: Language Switcher (Always Left) */}
+        <div className="flex-shrink-0 z-10">
           <div className="flex gap-3">
             {langs.map((l) => (
               <button
@@ -74,22 +62,39 @@ export default function Navbar() {
               </button>
             ))}
           </div>
+        </div>
 
-          <ul className="hidden md:flex gap-10 items-center text-xs uppercase tracking-[0.3em] font-bold">
+        {/* Center: Navigation Links (Always Center) */}
+        <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center">
+          <ul className="flex gap-10 items-center text-xs uppercase tracking-[0.3em] font-bold">
             {navLinks.map((link) => (
               <li key={link.key}>
                 <a
                   href={link.href}
                   className="text-white/40 hover:text-white transition-all duration-300 relative group"
                 >
-                  <span className={isAr ? "font-arabic-body text-sm tracking-normal" : "font-english-body"}>
+                  <span className={cn(isAr ? "font-arabic-body text-sm tracking-normal" : "font-english-body")}>
                     {t(link.key)}
                   </span>
-                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold transition-all duration-300 group-hover:w-full"></span>
                 </a>
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* Right Side: Logo (Always Right) */}
+        <div className="flex-shrink-0 z-10">
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="relative h-10 w-auto cursor-pointer"
+          >
+            <img 
+              src="https://imgur.com/gfGxLxQ.png" 
+              alt="Saad Nejjai" 
+              className="h-full w-auto object-contain drop-shadow-[0_0_15px_rgba(255,200,61,0.3)]"
+            />
+          </motion.div>
         </div>
       </div>
     </motion.nav>

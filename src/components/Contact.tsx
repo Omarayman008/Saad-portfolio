@@ -3,7 +3,19 @@
 import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Mail, Instagram, Linkedin, X, MessageCircle, ExternalLink, Send, ArrowUpRight } from "lucide-react";
+import { 
+  Mail, 
+  Instagram, 
+  Linkedin, 
+  X, 
+  MessageCircle, 
+  ExternalLink, 
+  Send, 
+  ArrowUpRight,
+  Phone,
+  User,
+  MessageSquare
+} from "lucide-react";
 
 export default function Contact() {
   const { language, t } = useLanguage();
@@ -29,18 +41,6 @@ export default function Contact() {
       icon: MessageCircle
     },
     { 
-      label: "X / Twitter", 
-      value: "@saadnejjai", 
-      href: "https://x.com/saadnejjai", 
-      icon: X
-    },
-    { 
-      label: "LinkedIn", 
-      value: "Saad Nejjai", 
-      href: "https://www.linkedin.com/in/saad-nejjai-453410402/", 
-      icon: Linkedin
-    },
-    { 
       label: "Email", 
       value: "business@saadnejjai.com.tr", 
       href: "mailto:business@saadnejjai.com.tr", 
@@ -48,87 +48,111 @@ export default function Contact() {
     },
   ];
 
-  const teaserText = {
-    ar: "ترقبوا انطلاق HighCoers قريباً.. آفاق جديدة من الحلول المتكاملة والابتكار الرقمي الذي يتجاوز حدود التصميم.",
-    en: "Stay tuned for the launch of HighCoers soon.. New horizons of integrated solutions and digital innovation that go beyond design.",
-    tr: "HighCoers yakında yayında.. Tasarımın ötesine geçen entegre çözümler ve dijital inovasyonda yeni ufuklar.",
-  };
-
   return (
     <section id="contact" className="py-24 relative overflow-hidden scroll-mt-20">
       <div className="container mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          
+          {/* Left Column: Info & Links */}
           <motion.div
             initial={{ opacity: 0, x: isAr ? 50 : -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
+            className="lg:col-span-5"
           >
-            <h2 className={cn("text-6xl md:text-8xl mb-10 leading-tight", isAr ? "font-arabic-hero" : "font-english-hero")}>
+            <h2 className={cn("text-6xl md:text-7xl mb-10 leading-tight", isAr ? "font-arabic-hero" : "font-english-hero")}>
               <span className="text-white">{t("contactTitle")}</span>
               <br />
-              <span className="text-white/30">{t("contactSubtitle")}</span>
+              <span className="text-gold">{t("contactSubtitle")}</span>
             </h2>
             
             <p className={cn("text-xl text-text-secondary max-w-md mb-12", isAr ? "font-arabic-body" : "font-english-body")}>
               {t("contactDesc")}
             </p>
 
-            {/* HighCoers Teaser */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="p-8 rounded-3xl bg-[#1e1e1e] border border-gold/5 relative overflow-hidden group"
-            >
-              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                <Send size={80} />
-              </div>
-              <h4 className="text-white text-3xl mb-4 font-bold tracking-tighter">
-                HighCoers
-              </h4>
-              <p className={cn("text-text-secondary leading-relaxed", isAr ? "font-arabic-body" : "font-english-body")}>
-                {teaserText[language]}
-              </p>
-              <div className="mt-6 flex items-center gap-2 text-gold font-bold text-sm tracking-widest uppercase">
-                {isAr ? "قريباً" : "Coming Soon"} <ArrowUpRight size={16} />
-              </div>
-            </motion.div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {contactLinks.map((link, idx) => (
+                <a
+                  key={idx}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex flex-col p-6 rounded-2xl bg-secondary/50 border border-white/5 hover:border-gold/30 transition-all duration-300 group"
+                >
+                  <link.icon size={20} className="text-gold mb-4" />
+                  <p className="text-white/30 text-[10px] uppercase tracking-widest mb-1">{link.label}</p>
+                  <p className="text-white text-sm font-bold truncate">{link.value}</p>
+                </a>
+              ))}
+            </div>
           </motion.div>
 
-          <div className="space-y-4">
-            {contactLinks.map((link, idx) => (
-              <motion.a
-                key={idx}
-                href={link.href}
-                target="_blank"
-                rel="noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1, duration: 0.5 }}
-                className={cn(
-                  "flex items-center justify-between p-8 rounded-3xl bg-[#1e1e1e]/50 border border-white/5 transition-all duration-500 group overflow-hidden relative hover:bg-gold/5 hover:border-gold/20"
-                )}
-              >
-                <div className="flex items-center gap-6 relative z-10">
-                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-gold group-hover:text-black transition-all duration-500">
-                    <link.icon size={24} />
+          {/* Right Column: Modern Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="lg:col-span-7 bg-secondary/30 backdrop-blur-xl border border-white/5 p-8 md:p-12 rounded-[2.5rem] relative overflow-hidden"
+          >
+            <div className="relative z-10">
+              <h3 className={cn("text-3xl md:text-4xl text-white mb-8", isAr ? "font-arabic-hero" : "font-english-hero")}>
+                {isAr ? "ابدأ مشروعك الآن" : "Start Your Project"}
+              </h3>
+
+              <form className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-white/40 ml-2">{isAr ? "الاسم" : "Full Name"}</label>
+                    <div className="relative">
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
+                      <input 
+                        type="text" 
+                        placeholder={isAr ? "سعد محمد" : "John Doe"}
+                        className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-white focus:outline-none focus:border-gold/50 transition-colors"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-white/20 text-xs uppercase tracking-[0.2em] font-bold mb-1 group-hover:text-gold/50 transition-colors">{link.label}</p>
-                    <p className={cn("text-white/80 group-hover:text-white text-xl font-bold transition-colors", isAr ? "font-arabic-body" : "font-english-body")}>{link.value}</p>
+                  <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-white/40 ml-2">{isAr ? "رقم الهاتف" : "Phone Number"}</label>
+                    <div className="relative">
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
+                      <input 
+                        type="tel" 
+                        placeholder="+966 5..."
+                        className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-white focus:outline-none focus:border-gold/50 transition-colors"
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0">
-                  <ArrowUpRight size={32} className="text-gold" />
+
+                <div className="space-y-2">
+                  <label className="text-xs uppercase tracking-widest text-white/40 ml-2">{isAr ? "رسالتك" : "Your Message"}</label>
+                  <div className="relative">
+                    <MessageSquare className="absolute left-4 top-6 text-white/20" size={18} />
+                    <textarea 
+                      rows={4}
+                      placeholder={isAr ? "اكتب تفاصيل مشروعك هنا..." : "Tell me about your project..."}
+                      className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-white focus:outline-none focus:border-gold/50 transition-colors resize-none"
+                    ></textarea>
+                  </div>
                 </div>
-                
-                {/* Subtle glow effect on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-              </motion.a>
-            ))}
-          </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-gold text-primary py-5 rounded-2xl font-bold text-lg uppercase tracking-widest flex items-center justify-center gap-3 shadow-[0_20px_40px_rgba(255,200,61,0.2)] hover:shadow-[0_20px_60px_rgba(255,200,61,0.3)] transition-all"
+                >
+                  {isAr ? "إرسال الطلب" : "Send Request"}
+                  <Send size={20} />
+                </motion.button>
+              </form>
+            </div>
+
+            {/* Decorative background for the form */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-[100px] -mr-32 -mt-32" />
+          </motion.div>
         </div>
 
         <div className="mt-32 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">

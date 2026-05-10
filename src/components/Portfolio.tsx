@@ -94,37 +94,30 @@ const INITIAL_PROJECTS = [
   { id: "c28", category: "carousel", title: "Carousel 28", img: "https://imgur.com/gW4SjcN.png" },
 ];
 
-function FolderIcon({ label, previewImgs }: { label: string, previewImgs: string[] }) {
+function FolderIcon({ label, previewImgs, isAr }: { label: string, previewImgs: string[], isAr: boolean }) {
   return (
     <div className="flex flex-col items-center gap-8 w-64 md:w-80 group cursor-pointer">
       <div className="relative w-full aspect-[16/10]">
-        {/* Stacked Papers/Images Effect */}
         <div className="absolute inset-0 flex items-center justify-center">
-            {/* Third layer (back) */}
             <div className="absolute w-[85%] h-[85%] bg-[#1a1a1a] border border-white/5 rounded-2xl shadow-2xl transition-all duration-700 group-hover:-translate-y-12 group-hover:-rotate-6 group-hover:scale-105 overflow-hidden">
                 <img src={previewImgs[2] || previewImgs[0]} className="w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity" />
             </div>
-            {/* Second layer (middle) */}
             <div className="absolute w-[90%] h-[90%] bg-[#262626] border border-white/10 rounded-2xl shadow-2xl transition-all duration-500 group-hover:-translate-y-8 group-hover:rotate-3 group-hover:scale-105 overflow-hidden">
                 <img src={previewImgs[1] || previewImgs[0]} className="w-full h-full object-cover opacity-30 group-hover:opacity-60 transition-opacity" />
             </div>
-            {/* Main Folder Front */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#d2b48c]/10 to-[#d2b48c]/5 backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 group-hover:border-gold/30 flex flex-col justify-end p-6 overflow-hidden">
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="relative z-10">
                     <div className="w-12 h-1 bg-gold/30 rounded-full mb-4 group-hover:w-20 transition-all duration-700" />
-                    <h4 className="text-white font-bold text-2xl tracking-tighter opacity-80 group-hover:opacity-100 transition-opacity">
+                    <h4 className={cn("text-white font-bold text-2xl tracking-tighter opacity-80 group-hover:opacity-100 transition-opacity", isAr ? "font-arabic-body" : "font-english-body")}>
                         {label}
                     </h4>
                 </div>
-                {/* Preview Image integrated into the folder front but subtle */}
                 <div className="absolute top-0 left-0 w-full h-full -z-10">
                     <img src={previewImgs[0]} className="w-full h-full object-cover opacity-5 group-hover:opacity-20 transition-opacity duration-1000 scale-110 group-hover:scale-100" />
                 </div>
             </div>
         </div>
-        
-        {/* Glow behind on hover */}
         <div className="absolute inset-0 bg-gold/5 blur-[60px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-20" />
       </div>
     </div>
@@ -132,7 +125,6 @@ function FolderIcon({ label, previewImgs }: { label: string, previewImgs: string
 }
 
 function PortfolioContent() {
-  const searchParams = useSearchParams();
   const { language, t } = useLanguage();
   const isAr = language === "ar";
   
@@ -200,6 +192,7 @@ function PortfolioContent() {
                       <FolderIcon 
                         label={cat.label} 
                         previewImgs={preview}
+                        isAr={isAr}
                       />
                     </motion.button>
                   );
@@ -222,11 +215,11 @@ function PortfolioContent() {
                   <div className="w-12 h-12 rounded-full border border-gold/10 flex items-center justify-center group-hover:border-gold group-hover:bg-gold group-hover:text-black transition-all">
                     <ArrowLeft size={20} />
                   </div>
-                  <span className="text-xs uppercase tracking-[0.4em] font-bold">
+                  <span className={cn("text-xs uppercase tracking-[0.4em] font-bold", isAr ? "font-arabic-body" : "font-english-body")}>
                     {isAr ? "العودة للمجلدات" : "Back to Folders"}
                   </span>
                 </button>
-                <h3 className={cn("text-4xl text-white font-bold", isAr ? "font-arabic-hero" : "font-english-hero")}>
+                <h3 className={cn("text-4xl text-white font-bold", isAr ? "font-arabic-body" : "font-english-body")}>
                   {currentCategories.find(c => c.id === activeCategory)?.label}
                 </h3>
                 <div className="w-24" />
@@ -237,7 +230,7 @@ function PortfolioContent() {
                   project.isDivider ? (
                     <div key={project.id} className="col-span-full py-12 flex items-center gap-8">
                         <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-gold/20" />
-                        <span className="text-gold/40 text-xs font-bold uppercase tracking-[0.5em] px-4 whitespace-nowrap">
+                        <span className={cn("text-gold/40 text-xs font-bold uppercase tracking-[0.5em] px-4 whitespace-nowrap", isAr ? "font-arabic-body" : "font-english-body")}>
                             {(project as any).label[language]}
                         </span>
                         <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-gold/20" />
@@ -258,7 +251,7 @@ function PortfolioContent() {
                         >
                             <Maximize2 size={20} />
                         </motion.div>
-                        <h4 className={cn("text-2xl text-white font-bold translate-y-4 group-hover:translate-y-0 transition-transform duration-500", isAr ? "font-arabic-hero" : "font-english-hero")}>
+                        <h4 className={cn("text-2xl text-white font-bold translate-y-4 group-hover:translate-y-0 transition-transform duration-500", isAr ? "font-arabic-body" : "font-english-body")}>
                             {project.title}
                         </h4>
                         </div>
@@ -318,7 +311,7 @@ function PortfolioContent() {
 
             <button 
                 onClick={() => setSelectedImg(null)}
-                className="absolute top-10 right-10 text-white/50 hover:text-white transition-all flex items-center gap-2 text-xs uppercase tracking-widest z-[110]"
+                className={cn("absolute top-10 right-10 text-white/50 hover:text-white transition-all flex items-center gap-2 text-xs uppercase tracking-widest z-[110]", isAr ? "font-arabic-body" : "font-english-body")}
             >
                 <CloseIcon size={18} />
                 {isAr ? "إغلاق" : "Close"}

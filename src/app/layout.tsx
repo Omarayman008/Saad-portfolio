@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, Bagel_Fat_One, Quicksand, Baloo_Bhaijaan_2 } from "next/font/google";
 import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -20,6 +21,7 @@ const bagel = Bagel_Fat_One({
 });
 
 const baloo = Baloo_Bhaijaan_2({
+  weight: ["400", "500", "600", "700", "800"],
   subsets: ["arabic"],
   variable: "--font-baloo",
 });
@@ -42,6 +44,7 @@ export default function RootLayout({
       <body className="antialiased bg-primary text-text-primary overflow-x-hidden selection:bg-gold/30 selection:text-gold-light">
         <LanguageProvider>
           <div className="bg-noise" />
+          <ScrollToTop />
           {children}
         </LanguageProvider>
       </body>

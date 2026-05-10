@@ -17,6 +17,24 @@
 }
 
 @layer base {
+  .font-arabic-hero {
+    font-family: var(--font-baloo);
+    font-weight: 800;
+  }
+
+  .font-arabic-body {
+    font-family: var(--font-baloo);
+    font-weight: 400;
+  }
+
+  .font-english-hero {
+    font-family: var(--font-bagel);
+  }
+
+  .font-english-body {
+    font-family: var(--font-quicksand);
+  }
+
   :root {
     --bg-color: #000000;
     --text-color: #FFFFFF;

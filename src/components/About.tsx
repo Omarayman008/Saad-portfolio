@@ -17,7 +17,6 @@ export default function About() {
   return (
     <section id="about" className="py-24 relative overflow-hidden scroll-mt-20">
       {/* Background Decorative Elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[120px] z-0" />
       
       <div className="container mx-auto px-6 md:px-12 text-center relative z-10">
         <motion.div
@@ -27,11 +26,11 @@ export default function About() {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto"
         >
-          <h2 className={cn("text-5xl md:text-7xl mb-12", isAr ? "font-arabic-hero" : "font-english-hero")}>
+          <h2 className={cn("mb-12", isAr ? "font-arabic-hero text-5xl md:text-7xl" : "font-english-hero text-5xl md:text-7xl")}>
             <div className="text-gold-gradient mb-6">
               {t("aboutTitle")}
             </div>
-            <div className="text-white">
+            <div className={cn("text-white text-3xl md:text-5xl", bodyFont)}>
               {t("aboutSubtitle")}
             </div>
           </h2>
