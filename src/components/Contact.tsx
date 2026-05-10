@@ -199,14 +199,10 @@ export default function Contact() {
         </div>
 
         {/* Footer */}
-        <div className="mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="mt-24 pt-8 border-t border-white/5 flex justify-center items-center">
           <p className={cn("text-text-secondary opacity-30 text-sm", isAr ? "font-arabic-body" : "font-english-body")}>
             Copyright © 2026 Saad Nejjai. All rights reserved.
           </p>
-          <div className="flex gap-8 text-[10px] uppercase tracking-[0.3em] font-bold text-white/20">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-          </div>
         </div>
       </div>
     </section>
