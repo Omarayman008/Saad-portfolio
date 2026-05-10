@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -17,9 +17,14 @@ import {
   Edit3,
   Save,
   Image as ImageIcon,
-  FolderPlus
+  FolderPlus,
+  Upload,
+  Loader2
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+
+// IMGBB API Key (Trial) - In a real app, this should be in .env
+const IMGBB_API_KEY = "3f86e30090875e53380c5866a12b48d8";
 
 const INITIAL_CATEGORIES = {
   ar: [
@@ -120,9 +125,6 @@ function FolderIcon({ label, previewImgs, isAr, isAdmin, onEdit, onDelete }: {
     <div className="flex flex-col items-center gap-8 w-64 md:w-80 group cursor-pointer relative">
       {isAdmin && (
         <div className="absolute -top-4 -right-4 z-40 flex gap-2">
-          <button onClick={(e) => { e.stopPropagation(); onEdit?.(); }} className="w-10 h-10 bg-gold text-black rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
-            <Edit3 size={16} />
-          </button>
           <button onClick={(e) => { e.stopPropagation(); onDelete?.(); }} className="w-10 h-10 bg-red-500 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
             <Trash2 size={16} />
           </button>
@@ -158,12 +160,15 @@ function FolderIcon({ label, previewImgs, isAr, isAdmin, onEdit, onDelete }: {
 function PortfolioContent() {
   const { language, t } = useLanguage();
   const searchParams = useSearchParams();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
   const isAr = language === "ar";
   const isAdmin = searchParams.get("edit") === "true";
   
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
   const [scale, setScale] = useState(1);
+  const [isUploading, setIsUploading] = useState(false);
   
   // States for Admin Management
   const [categories, setCategories] = useState<any>(null);
@@ -211,18 +216,40 @@ function PortfolioContent() {
     : [];
 
   // ADMIN ACTIONS
-  const addNewProject = () => {
-    const title = prompt(isAr ? "عنوان الصورة:" : "Image Title:");
-    const url = prompt(isAr ? "رابط الصورة (URL):" : "Image URL:");
-    if (!title || !url || !activeCategory) return;
-    
-    const newProject = {
-      id: `p-${Date.now()}`,
-      category: activeCategory,
-      title,
-      img: url
-    };
-    saveToLocal(categories, [newProject, ...projects]);
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !activeCategory) return;
+
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        const title = prompt(isAr ? "عنوان الصورة:" : "Image Title:", file.name.split('.')[0]);
+        const newProject = {
+          id: `p-${Date.now()}`,
+          category: activeCategory,
+          title: title || "New Image",
+          img: result.data.url
+        };
+        saveToLocal(categories, [newProject, ...projects]);
+      } else {
+        alert(isAr ? "فشل الرفع. يرجى المحاولة لاحقاً." : "Upload failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert(isAr ? "خطأ في الاتصال بالسيرفر." : "Error connecting to server.");
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
   };
 
   const deleteProject = (id: string) => {
@@ -276,6 +303,14 @@ function PortfolioContent() {
 
   return (
     <section id="portfolio" className="py-24 relative min-h-[800px] scroll-mt-20">
+      <input 
+        type="file" 
+        ref={fileInputRef} 
+        className="hidden" 
+        accept="image/*" 
+        onChange={handleFileUpload} 
+      />
+      
       {isAdmin && (
         <div className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4 items-end">
           <motion.button 
@@ -375,13 +410,30 @@ function PortfolioContent() {
                     {currentCategories.find((c: any) => c.id === activeCategory)?.label}
                     </h3>
                     {isAdmin && (
-                        <button 
-                            onClick={addNewProject}
-                            className="bg-gold text-black px-6 py-2 rounded-xl font-bold text-xs flex items-center gap-2 hover:scale-105 transition-transform"
-                        >
-                            <Plus size={16} />
-                            {isAr ? "إضافة صورة" : "Add Image"}
-                        </button>
+                        <div className="flex gap-4">
+                            <button 
+                                disabled={isUploading}
+                                onClick={() => fileInputRef.current?.click()}
+                                className="bg-gold text-black px-6 py-2 rounded-xl font-bold text-xs flex items-center gap-2 hover:scale-105 transition-transform disabled:opacity-50"
+                            >
+                                {isUploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
+                                {isAr ? "رفع من الجهاز" : "Upload from Device"}
+                            </button>
+                            <button 
+                                onClick={() => {
+                                    const title = prompt(isAr ? "عنوان الصورة:" : "Image Title:");
+                                    const url = prompt(isAr ? "رابط الصورة (URL):" : "Image URL:");
+                                    if (title && url) {
+                                        const newProject = { id: `p-${Date.now()}`, category: activeCategory, title, img: url };
+                                        saveToLocal(categories, [newProject, ...projects]);
+                                    }
+                                }}
+                                className="bg-white/5 text-white/40 px-6 py-2 rounded-xl font-bold text-xs flex items-center gap-2 hover:bg-white/10 transition-all"
+                            >
+                                <Plus size={16} />
+                                {isAr ? "إضافة برابط" : "Add by URL"}
+                            </button>
+                        </div>
                     )}
                 </div>
                 <div className="w-24" />
