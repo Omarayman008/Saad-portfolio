@@ -31,7 +31,7 @@ export default function Contact() {
     { 
       label: "LinkedIn", 
       value: "Saad Nejjai", 
-      href: "https://www.linkedin.com/in/saad-nejjai-a15993215/", 
+      href: "https://www.linkedin.com/in/saad-nejjai-453410402", 
       icon: Linkedin
     },
     { 
