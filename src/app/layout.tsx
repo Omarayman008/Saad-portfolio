@@ -1,5 +1,4 @@
-import type { Metadata } from "next";
-import { Outfit, Bagel_Fat_One, Quicksand, Baloo_Bhaijaan_2 } from "next/font/google";
+import { Outfit, Cormorant_Garamond, Quicksand, Baloo_Bhaijaan_2 } from "next/font/google";
 import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -14,10 +13,10 @@ const quicksand = Quicksand({
   variable: "--font-quicksand",
 });
 
-const bagel = Bagel_Fat_One({
-  weight: "400",
+const cormorant = Cormorant_Garamond({
+  weight: ["300", "400", "500"],
   subsets: ["latin"],
-  variable: "--font-bagel",
+  variable: "--font-cormorant",
 });
 
 const baloo = Baloo_Bhaijaan_2({
@@ -40,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${outfit.variable} ${bagel.variable} ${quicksand.variable} ${baloo.variable}`}>
+    <html lang="ar" dir="rtl" className={`${outfit.variable} ${cormorant.variable} ${quicksand.variable} ${baloo.variable}`}>
       <body className="antialiased bg-primary text-text-primary overflow-x-hidden selection:bg-gold/30 selection:text-gold-light">
         <LanguageProvider>
           <div className="bg-noise" />

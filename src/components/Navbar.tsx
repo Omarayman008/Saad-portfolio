@@ -40,7 +40,7 @@ export default function Navbar() {
       transition={{ duration: 0.8, ease: "circOut" }}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        scrolled ? "py-4 bg-black/50 backdrop-blur-2xl border-b border-white/5" : "py-8"
+        scrolled ? "py-4 bg-black/50 backdrop-blur-2xl" : "py-8"
       )}
     >
       <div className="container mx-auto px-6 md:px-12 relative flex justify-between items-center flex-row">
