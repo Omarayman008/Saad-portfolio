@@ -58,11 +58,11 @@ export default function Hero() {
             />
           </motion.div>
 
-          <motion.div variants={itemVariants} className="space-y-6">
-            <h2 className={cn("text-4xl md:text-8xl text-text-primary font-bold tracking-tight", titleFont)}>
+          <motion.div variants={itemVariants} className="space-y-10">
+            <h2 className={cn("text-4xl md:text-7xl text-text-primary", titleFont)}>
               {t("tagline")}
             </h2>
-            <p className={cn("text-lg md:text-2xl text-text-secondary leading-relaxed max-w-2xl mx-auto", bodyFont)}>
+            <p className={cn("text-lg md:text-xl text-text-secondary max-w-2xl mx-auto opacity-70", bodyFont)}>
               {t("subTagline")}
             </p>
           </motion.div>
