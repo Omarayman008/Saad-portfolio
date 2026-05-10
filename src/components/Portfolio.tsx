@@ -19,12 +19,13 @@ import {
   Image as ImageIcon,
   FolderPlus,
   Upload,
-  Loader2
+  Loader2,
+  Key
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
-// IMGBB API Key (Trial) - In a real app, this should be in .env
-const IMGBB_API_KEY = "3f86e30090875e53380c5866a12b48d8";
+// Default IMGBB API Key (Fallback)
+const DEFAULT_IMGBB_KEY = "f6880461878f5664156553dfebf46401";
 
 const INITIAL_CATEGORIES = {
   ar: [
@@ -169,6 +170,7 @@ function PortfolioContent() {
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
   const [scale, setScale] = useState(1);
   const [isUploading, setIsUploading] = useState(false);
+  const [apiKey, setApiKey] = useState(DEFAULT_IMGBB_KEY);
   
   // States for Admin Management
   const [categories, setCategories] = useState<any>(null);
@@ -178,8 +180,11 @@ function PortfolioContent() {
   useEffect(() => {
     const savedCats = localStorage.getItem("saad_categories");
     const savedProjects = localStorage.getItem("saad_projects");
+    const savedKey = localStorage.getItem("saad_imgbb_key");
+    
     setCategories(savedCats ? JSON.parse(savedCats) : INITIAL_CATEGORIES);
     setProjects(savedProjects ? JSON.parse(savedProjects) : INITIAL_PROJECTS);
+    if (savedKey) setApiKey(savedKey);
   }, []);
 
   const saveToLocal = (newCats: any, newProjects: any[]) => {
@@ -225,7 +230,8 @@ function PortfolioContent() {
     formData.append("image", file);
 
     try {
-      const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+      // Use the current apiKey from state
+      const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
         method: "POST",
         body: formData,
       });
@@ -241,14 +247,24 @@ function PortfolioContent() {
         };
         saveToLocal(categories, [newProject, ...projects]);
       } else {
-        alert(isAr ? "فشل الرفع. يرجى المحاولة لاحقاً." : "Upload failed. Please try again.");
+        const errMsg = result.error?.message || (isAr ? "فشل الرفع. ربما مفتاح API غير صالح." : "Upload failed. API Key might be invalid.");
+        alert(errMsg);
       }
     } catch (error) {
       console.error("Upload error:", error);
-      alert(isAr ? "خطأ في الاتصال بالسيرفر." : "Error connecting to server.");
+      alert(isAr ? "خطأ في الاتصال بالسيرفر. تأكد من جودة الإنترنت." : "Server connection error. Please check your internet.");
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const changeApiKey = () => {
+    const newKey = prompt(isAr ? "أدخل مفتاح ImgBB API الجديد الخاص بك:" : "Enter your new ImgBB API Key:", apiKey);
+    if (newKey && newKey.trim() !== "") {
+      setApiKey(newKey.trim());
+      localStorage.setItem("saad_imgbb_key", newKey.trim());
+      alert(isAr ? "تم تحديث مفتاح API بنجاح." : "API Key updated successfully.");
     }
   };
 
@@ -322,12 +338,21 @@ function PortfolioContent() {
             {isAr ? "حفظ وتصدير الإعدادات" : "Save & Export Config"}
           </motion.button>
           
-          <button 
-            onClick={restoreDefaults}
-            className="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-red-500/20 transition-all"
-          >
-            {isAr ? "استعادة البيانات الأصلية" : "Restore Original Data"}
-          </button>
+          <div className="flex gap-2">
+            <button 
+                onClick={changeApiKey}
+                className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-white/5 transition-all flex items-center gap-2"
+            >
+                <Key size={14} />
+                {isAr ? "تغيير مفتاح الرفع" : "Change API Key"}
+            </button>
+            <button 
+                onClick={restoreDefaults}
+                className="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-red-500/20 transition-all"
+            >
+                {isAr ? "استعادة البيانات" : "Restore"}
+            </button>
+          </div>
 
           <div className="bg-[#1a1a1a]/90 backdrop-blur-xl p-4 rounded-3xl border border-gold/20 text-white text-[10px] text-center font-bold uppercase tracking-widest">
             {isAr ? "وضع الإدارة مفعل" : "Admin Mode Active"}
