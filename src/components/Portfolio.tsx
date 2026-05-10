@@ -226,12 +226,12 @@ function PortfolioContent() {
   };
 
   const deleteProject = (id: string) => {
-    if (!confirm(isAr ? "هل أنت متأكد من الحذف؟" : "Are you sure you want to delete this?")) return;
+    if (!confirm(isAr ? "هل أنت متأكد من حذف الصورة؟" : "Are you sure you want to delete this image?")) return;
     saveToLocal(categories, projects.filter(p => p.id !== id));
   };
 
   const addNewFolder = () => {
-    const id = prompt("Folder ID (English):");
+    const id = prompt("Folder ID (English):")?.toLowerCase().replace(/\s+/g, '-');
     const labelAr = prompt("Folder Label (Arabic):");
     const labelEn = prompt("Folder Label (English):");
     const labelTr = prompt("Folder Label (Turkish):");
@@ -244,6 +244,23 @@ function PortfolioContent() {
         tr: [...categories.tr, { id, label: labelTr }],
     };
     saveToLocal(newCats, projects);
+  };
+
+  const deleteFolder = (catId: string) => {
+    if (!confirm(isAr ? "هل أنت متأكد من حذف المجلد بالكامل مع جميع محتوياته؟" : "Are you sure you want to delete this folder and all its contents?")) return;
+    const newCats = {
+        ar: categories.ar.filter((c: any) => c.id !== catId),
+        en: categories.en.filter((c: any) => c.id !== catId),
+        tr: categories.tr.filter((c: any) => c.id !== catId),
+    };
+    saveToLocal(newCats, projects.filter(p => p.category !== catId));
+  };
+
+  const restoreDefaults = () => {
+    if (!confirm(isAr ? "سيتم مسح جميع تعديلاتك واستعادة البيانات الأصلية. هل أنت متأكد؟" : "This will erase all your edits and restore original data. Are you sure?")) return;
+    localStorage.removeItem("saad_categories");
+    localStorage.removeItem("saad_projects");
+    window.location.reload();
   };
 
   const exportConfig = () => {
@@ -260,7 +277,7 @@ function PortfolioContent() {
   return (
     <section id="portfolio" className="py-24 relative min-h-[800px] scroll-mt-20">
       {isAdmin && (
-        <div className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4">
+        <div className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4 items-end">
           <motion.button 
             initial={{ scale: 0 }} animate={{ scale: 1 }}
             onClick={exportConfig}
@@ -269,7 +286,15 @@ function PortfolioContent() {
             <Save size={20} />
             {isAr ? "حفظ وتصدير الإعدادات" : "Save & Export Config"}
           </motion.button>
-          <div className="bg-[#1a1a1a]/90 backdrop-blur-xl p-4 rounded-3xl border border-gold/20 text-white text-xs text-center font-bold uppercase tracking-widest">
+          
+          <button 
+            onClick={restoreDefaults}
+            className="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-red-500/20 transition-all"
+          >
+            {isAr ? "استعادة البيانات الأصلية" : "Restore Original Data"}
+          </button>
+
+          <div className="bg-[#1a1a1a]/90 backdrop-blur-xl p-4 rounded-3xl border border-gold/20 text-white text-[10px] text-center font-bold uppercase tracking-widest">
             {isAr ? "وضع الإدارة مفعل" : "Admin Mode Active"}
           </div>
         </div>
@@ -308,14 +333,7 @@ function PortfolioContent() {
                         previewImgs={preview}
                         isAr={isAr}
                         isAdmin={isAdmin}
-                        onDelete={() => {
-                            const newCats = {
-                                ar: categories.ar.filter((c: any) => c.id !== cat.id),
-                                en: categories.en.filter((c: any) => c.id !== cat.id),
-                                tr: categories.tr.filter((c: any) => c.id !== cat.id),
-                            };
-                            saveToLocal(newCats, projects.filter(p => p.category !== cat.id));
-                        }}
+                        onDelete={() => deleteFolder(cat.id)}
                       />
                     </motion.button>
                   );
