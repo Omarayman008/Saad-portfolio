@@ -133,7 +133,7 @@ export default function Contact() {
 
         <div className="mt-32 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
           <p className={cn("text-text-secondary opacity-50", isAr ? "font-arabic-body" : "font-english-body")}>
-            {t("copyright")}
+            Copyright © 2026 Saad Nejjai. All rights reserved.
           </p>
           <div className="flex gap-8 text-xs uppercase tracking-[0.3em] font-bold text-white/30">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
