@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -11,7 +12,6 @@ import {
   MessageCircle, 
   ExternalLink, 
   Send, 
-  ArrowUpRight,
   Phone,
   User,
   MessageSquare
@@ -20,6 +20,12 @@ import {
 export default function Contact() {
   const { language, t } = useLanguage();
   const isAr = language === "ar";
+  
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    message: ""
+  });
 
   const contactLinks = [
     { 
@@ -47,6 +53,18 @@ export default function Contact() {
       icon: Mail
     },
   ];
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const subject = isAr ? `طلب مشروع جديد من: ${formData.name}` : `New Project Inquiry from: ${formData.name}`;
+    const body = `${isAr ? "الاسم" : "Name"}: ${formData.name}%0D%0A` +
+                 `${isAr ? "رقم الهاتف" : "Phone"}: ${formData.phone}%0D%0A%0D%0A` +
+                 `${isAr ? "الرسالة" : "Message"}:%0D%0A${formData.message}`;
+    
+    const mailtoUrl = `mailto:business@saadnejjai.com.tr?subject=${encodeURIComponent(subject)}&body=${body}`;
+    window.location.href = mailtoUrl;
+  };
 
   return (
     <section id="contact" className="py-24 relative overflow-hidden scroll-mt-20">
@@ -101,14 +119,17 @@ export default function Contact() {
                 {isAr ? "ابدأ مشروعك الآن" : "Start Your Project"}
               </h3>
 
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-white/40 ml-2">{isAr ? "الاسم" : "Full Name"}</label>
                     <div className="relative">
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
                       <input 
+                        required
                         type="text" 
+                        value={formData.name}
+                        onChange={(e) => setFormData({...formData, name: e.target.value})}
                         placeholder={isAr ? "سعد محمد" : "John Doe"}
                         className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-white focus:outline-none focus:border-gold/50 transition-colors"
                       />
@@ -119,7 +140,10 @@ export default function Contact() {
                     <div className="relative">
                       <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
                       <input 
+                        required
                         type="tel" 
+                        value={formData.phone}
+                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         placeholder="+966 5..."
                         className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-white focus:outline-none focus:border-gold/50 transition-colors"
                       />
@@ -132,7 +156,10 @@ export default function Contact() {
                   <div className="relative">
                     <MessageSquare className="absolute left-4 top-6 text-white/20" size={18} />
                     <textarea 
+                      required
                       rows={4}
+                      value={formData.message}
+                      onChange={(e) => setFormData({...formData, message: e.target.value})}
                       placeholder={isAr ? "اكتب تفاصيل مشروعك هنا..." : "Tell me about your project..."}
                       className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-white focus:outline-none focus:border-gold/50 transition-colors resize-none"
                     ></textarea>
@@ -140,6 +167,7 @@ export default function Contact() {
                 </div>
 
                 <motion.button
+                  type="submit"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className="w-full bg-gold text-primary py-5 rounded-2xl font-bold text-lg uppercase tracking-widest flex items-center justify-center gap-3 shadow-[0_20px_40px_rgba(255,200,61,0.2)] hover:shadow-[0_20px_60px_rgba(255,200,61,0.3)] transition-all"
