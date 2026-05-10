@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 export default function About() {
   const { language, t } = useLanguage();
   const isAr = language === "ar";
+  const bodyFont = isAr ? "font-arabic-body" : "font-english-body";
 
   const stats = [
     { label: t("yearsExp"), value: "7+" },
@@ -35,7 +36,7 @@ export default function About() {
             </div>
           </h2>
           
-          <p className={cn("text-xl text-text-secondary leading-relaxed mb-16 mx-auto", isAr ? "font-arabic-body" : "font-english-body")}>
+          <p className={cn("text-xl text-text-secondary leading-relaxed mb-16 mx-auto", bodyFont)}>
             {t("aboutDesc")}
           </p>
 
