@@ -29,6 +29,18 @@ export default function Contact() {
 
   const contactLinks = [
     { 
+      label: "LinkedIn", 
+      value: "Saad Nejjai", 
+      href: "https://www.linkedin.com/in/saad-nejjai-a15993215/", 
+      icon: Linkedin
+    },
+    { 
+      label: "X (Twitter)", 
+      value: "@SaadNejjai", 
+      href: "https://x.com/SaadNejjai", 
+      icon: X
+    },
+    { 
       label: "Behance", 
       value: "behance.net/SaadNejjai", 
       href: "https://www.behance.net/SaadNejjai", 
