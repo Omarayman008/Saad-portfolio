@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Outfit, Cormorant_Garamond, Quicksand, Baloo_Bhaijaan_2 } from "next/font/google";
 import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
