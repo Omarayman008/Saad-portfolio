@@ -82,8 +82,6 @@ export default function Contact() {
     <section id="contact" className="py-24 relative overflow-hidden scroll-mt-20">
       <div className="container mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-          
-          {/* Left Side: Form Container */}
           <motion.div
             initial={{ opacity: 0, x: isAr ? 50 : -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -156,7 +154,6 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* Right Side: Info & Accounts */}
           <motion.div
             initial={{ opacity: 0, x: isAr ? -50 : 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -198,7 +195,6 @@ export default function Contact() {
           </motion.div>
         </div>
 
-        {/* Footer */}
         <div className="mt-24 pt-8 border-t border-white/5 flex justify-center items-center">
           <p className={cn("text-text-secondary opacity-30 text-sm", isAr ? "font-arabic-body" : "font-english-body")}>
             Copyright © 2026 Saad Nejjai. All rights reserved.

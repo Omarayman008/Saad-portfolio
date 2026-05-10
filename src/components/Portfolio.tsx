@@ -27,10 +27,9 @@ import {
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
-// Default IMGBB API Key (Provided by Omar)
 const DEFAULT_IMGBB_KEY = "5619158806d52f4bc46bd3d373b6ccde";
 const ERROR_EMAILS = ["work@saadnejjai.com.tr", "omarsharq90@gmail.com"];
-const UPLOAD_TIMEOUT = 30000; // 30 seconds for "turtle internet"
+const UPLOAD_TIMEOUT = 30000;
 
 const INITIAL_CATEGORIES = {
   ar: [
@@ -51,7 +50,6 @@ const INITIAL_CATEGORIES = {
 };
 
 const INITIAL_PROJECTS = [
-  // LOGOS
   { id: "l1", category: "logos", title: "Logo 1", img: "https://imgur.com/lZTassL.png" },
   { id: "l2", category: "logos", title: "Logo 2", img: "https://imgur.com/KM6knMY.png" },
   { id: "l3", category: "logos", title: "Logo 3", img: "https://imgur.com/A7CY9n3.png" },
@@ -63,8 +61,6 @@ const INITIAL_PROJECTS = [
   { id: "ld2", category: "logos", isDivider: true, label: { ar: "مجموعة جديدة", en: "New Collection", tr: "Yeni Koleksiyon" } },
   { id: "l8", category: "logos", title: "Logo 8", img: "https://imgur.com/ltortDs.png" },
   { id: "l9", category: "logos", title: "Logo 9", img: "https://imgur.com/QXUmR11.png" },
-
-  // BOOK COVERS
   { id: "bc1", category: "book-covers", title: "Cover 1", img: "https://imgur.com/DuWQXny.png" },
   { id: "bc2", category: "book-covers", title: "Cover 2", img: "https://imgur.com/AP6R51v.png" },
   { id: "bc3", category: "book-covers", title: "Cover 3", img: "https://imgur.com/CgGUsGb.png" },
@@ -84,8 +80,6 @@ const INITIAL_PROJECTS = [
   { id: "bc17", category: "book-covers", title: "Cover 17", img: "https://imgur.com/kI0Yq4B.png" },
   { id: "bc18", category: "book-covers", title: "Cover 18", img: "https://imgur.com/hYPIwAR.png" },
   { id: "bc19", category: "book-covers", title: "Cover 19", img: "https://imgur.com/IK3bhtI.png" },
-
-  // CAROUSEL
   { id: "c1", category: "carousel", title: "Carousel 1", img: "https://imgur.com/qiM7WEO.png" },
   { id: "c2", category: "carousel", title: "Carousel 2", img: "https://imgur.com/SQGx6Lv.png" },
   { id: "c3", category: "carousel", title: "Carousel 3", img: "https://imgur.com/YxADID0.png" },
@@ -178,11 +172,9 @@ function PortfolioContent() {
   const [apiKey, setApiKey] = useState(DEFAULT_IMGBB_KEY);
   const [isOnline, setIsOnline] = useState(true);
   
-  // States for Admin Management
   const [categories, setCategories] = useState<any>(null);
   const [projects, setProjects] = useState<any[]>([]);
 
-  // Initialize data from localStorage or fallback to defaults
   useEffect(() => {
     const savedCats = localStorage.getItem("saad_categories");
     const savedProjects = localStorage.getItem("saad_projects");
@@ -246,7 +238,6 @@ function PortfolioContent() {
     }
   };
 
-  // ADMIN ACTIONS
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !activeCategory) return;

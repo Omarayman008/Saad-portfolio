@@ -47,7 +47,6 @@ export default function Navbar() {
         "container mx-auto px-6 md:px-12 relative flex justify-between items-center",
         isAr ? "flex-row" : "flex-row-reverse"
       )}>
-        {/* Language Switcher (Left in AR, Right in EN/TR) */}
         <div className="flex-shrink-0 z-10">
           <div className="flex gap-3">
             {langs.map((l) => (
@@ -67,7 +66,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Center: Navigation Links (Always Center) */}
         <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center">
           <ul className="flex gap-10 items-center text-xs uppercase tracking-[0.3em] font-bold">
             {navLinks.map((link) => (
@@ -86,7 +84,6 @@ export default function Navbar() {
           </ul>
         </div>
 
-        {/* Logo (Right in AR, Left in EN/TR) */}
         <div className="flex-shrink-0 z-10">
           <motion.div 
             whileHover={{ scale: 1.05 }}
