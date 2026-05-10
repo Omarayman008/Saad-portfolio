@@ -21,7 +21,7 @@ const INITIAL_CATEGORIES = {
   tr: [
     { id: "logos", label: "Logolar" },
     { id: "book-covers", label: "Kitap Kapakları" },
-    { id: "carousel", label: "Karayel" },
+    { id: "carousel", label: "Carousel & Montaj" },
   ]
 };
 
@@ -109,7 +109,7 @@ function FolderIcon({ label, previewImgs, isAr }: { label: string, previewImgs: 
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="relative z-10">
                     <div className="w-12 h-1 bg-gold/30 rounded-full mb-4 group-hover:w-20 transition-all duration-700" />
-                    <h4 className={cn("text-white font-bold text-2xl tracking-tighter opacity-80 group-hover:opacity-100 transition-opacity", isAr ? "font-arabic-body" : "font-english-body")}>
+                    <h4 className={cn("text-gold-gradient font-bold text-3xl tracking-tighter transition-all duration-500", isAr ? "font-arabic-body" : "font-english-body")}>
                         {label}
                     </h4>
                 </div>
