@@ -24,8 +24,10 @@ import {
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
-// Default IMGBB API Key (Fallback)
-const DEFAULT_IMGBB_KEY = "f6880461878f5664156553dfebf46401";
+// Default IMGBB API Key (Provided by Omar)
+const DEFAULT_IMGBB_KEY = "5619158806d52f4bc46bd3d373b6ccde";
+
+const ERROR_EMAILS = ["work@saadnejjai.com.tr", "omarsharq90@gmail.com"];
 
 const INITIAL_CATEGORIES = {
   ar: [
@@ -220,6 +222,20 @@ function PortfolioContent() {
     ? projects.filter(p => p.category === activeCategory)
     : [];
 
+  const reportError = async (errorType: string, details: string) => {
+    console.error(`[Portfolio Error] ${errorType}:`, details);
+    
+    // In a real production environment with a backend, you'd send this to your logging service.
+    // For now, we'll notify the admin and provide a quick link to report to Omar/Saad.
+    const subject = encodeURIComponent(`Portfolio Error Report: ${errorType}`);
+    const body = encodeURIComponent(`An error occurred in Saad's Portfolio.\n\nType: ${errorType}\nDetails: ${details}\nTime: ${new Date().toISOString()}`);
+    const mailto = `mailto:${ERROR_EMAILS.join(',')}?subject=${subject}&body=${body}`;
+    
+    if (confirm(isAr ? "حدث خطأ تقني. هل تريد إرسال تقرير بالخطأ إلى المطورين؟" : "A technical error occurred. Would you like to send a report to the developers?")) {
+        window.location.href = mailto;
+    }
+  };
+
   // ADMIN ACTIONS
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -249,10 +265,12 @@ function PortfolioContent() {
       } else {
         const errMsg = result.error?.message || (isAr ? "فشل الرفع. ربما مفتاح API غير صالح." : "Upload failed. API Key might be invalid.");
         alert(errMsg);
+        reportError("ImgBB Upload Failure", JSON.stringify(result));
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Upload error:", error);
       alert(isAr ? "خطأ في الاتصال بالسيرفر. تأكد من جودة الإنترنت." : "Server connection error. Please check your internet.");
+      reportError("Network/CORS Error", error?.message || "Unknown error");
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
