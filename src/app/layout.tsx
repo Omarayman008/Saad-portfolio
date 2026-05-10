@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   title: "SaadNejjai | Premium Graphic Design",
   description: "Portfolio of SaadNejjai, specializing in Branding, Visual Identity, Social Media & Advertising, Book Covers & Logos.",
   icons: {
-    icon: "https://imgur.com/gfGxLxQ.png",
+    icon: "https://imgur.com/FHU5GHE.png",
   },
 };
 
