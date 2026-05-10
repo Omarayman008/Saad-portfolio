@@ -27,6 +27,9 @@ const baloo = Baloo_Bhaijaan_2({
 export const metadata: Metadata = {
   title: "SaadNejjai | Premium Graphic Design",
   description: "Portfolio of SaadNejjai, specializing in Branding, Visual Identity, Social Media & Advertising, Book Covers & Logos.",
+  icons: {
+    icon: "https://imgur.com/gfGxLxQ.png",
+  },
 };
 
 export default function RootLayout({
