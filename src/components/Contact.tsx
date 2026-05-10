@@ -48,8 +48,8 @@ export default function Contact() {
     },
     { 
       label: "Email", 
-      value: "business@saadnejjai.com.tr", 
-      href: "mailto:business@saadnejjai.com.tr", 
+      value: "work@saadnejjai.com.tr", 
+      href: "mailto:work@saadnejjai.com.tr", 
       icon: Mail
     },
   ];
@@ -62,7 +62,7 @@ export default function Contact() {
                  `${isAr ? "رقم الهاتف" : "Phone"}: ${formData.phone}%0D%0A%0D%0A` +
                  `${isAr ? "الرسالة" : "Message"}:%0D%0A${formData.message}`;
     
-    const mailtoUrl = `mailto:business@saadnejjai.com.tr?subject=${encodeURIComponent(subject)}&body=${body}`;
+    const mailtoUrl = `mailto:work@saadnejjai.com.tr?subject=${encodeURIComponent(subject)}&body=${body}`;
     window.location.href = mailtoUrl;
   };
 
