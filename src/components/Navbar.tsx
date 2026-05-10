@@ -43,7 +43,7 @@ export default function Navbar() {
         scrolled ? "py-4 bg-black/50 backdrop-blur-2xl border-b border-white/5" : "py-8"
       )}
     >
-      <div className="container mx-auto px-6 md:px-12 flex justify-between items-center flex-row-reverse">
+      <div className="container mx-auto px-6 md:px-12 flex justify-between items-center flex-row">
         {/* Logo on the right with sand/beige colors and dusty effect */}
         <motion.div 
           whileHover={{ scale: 1.05 }}
