@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Almarai, IBM_Plex_Sans_Arabic, Outfit, Bagel_Fat_One, Quicksand } from "next/font/google";
-import localFont from "next/font/local";
+import { Outfit, Bagel_Fat_One, Quicksand, Baloo_Bhaijaan_2 } from "next/font/google";
 import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
 
@@ -20,42 +19,9 @@ const bagel = Bagel_Fat_One({
   variable: "--font-bagel",
 });
 
-const almarai = Almarai({
-  weight: ["300", "400", "700", "800"],
+const baloo = Baloo_Bhaijaan_2({
   subsets: ["arabic"],
-  variable: "--font-almarai",
-});
-
-const ibmPlexArabic = IBM_Plex_Sans_Arabic({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["arabic"],
-  variable: "--font-ibm-plex-arabic",
-});
-
-const thmanyah = localFont({
-  src: [
-    {
-      path: "./fonts/thmanyahsans-Regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "./fonts/thmanyahsans-Medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "./fonts/thmanyahsans-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "./fonts/thmanyahsans-Black.woff2",
-      weight: "900",
-      style: "normal",
-    },
-  ],
-  variable: "--font-thmanyah",
+  variable: "--font-baloo",
 });
 
 export const metadata: Metadata = {
@@ -69,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${almarai.variable} ${ibmPlexArabic.variable} ${thmanyah.variable} ${outfit.variable} ${bagel.variable} ${quicksand.variable}`}>
+    <html lang="ar" dir="rtl" className={`${outfit.variable} ${bagel.variable} ${quicksand.variable} ${baloo.variable}`}>
       <body className="antialiased bg-primary text-text-primary overflow-x-hidden selection:bg-gold/30 selection:text-gold-light">
         <LanguageProvider>
           <div className="bg-noise" />
