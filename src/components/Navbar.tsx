@@ -43,8 +43,11 @@ export default function Navbar() {
         scrolled ? "py-4 bg-black/50 backdrop-blur-2xl" : "py-8"
       )}
     >
-      <div className="container mx-auto px-6 md:px-12 relative flex justify-between items-center flex-row">
-        {/* Left Side: Language Switcher (Always Left) */}
+      <div className={cn(
+        "container mx-auto px-6 md:px-12 relative flex justify-between items-center",
+        isAr ? "flex-row" : "flex-row-reverse"
+      )}>
+        {/* Language Switcher (Left in AR, Right in EN/TR) */}
         <div className="flex-shrink-0 z-10">
           <div className="flex gap-3">
             {langs.map((l) => (
@@ -83,7 +86,7 @@ export default function Navbar() {
           </ul>
         </div>
 
-        {/* Right Side: Logo (Always Right) */}
+        {/* Logo (Right in AR, Left in EN/TR) */}
         <div className="flex-shrink-0 z-10">
           <motion.div 
             whileHover={{ scale: 1.05 }}
