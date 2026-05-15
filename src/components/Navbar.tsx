@@ -8,7 +8,7 @@ import Image from "next/image";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const { language, setLanguage, T } = useLanguage();
+  const { language, setLanguage, T } = useLanguage() as { language: string; setLanguage: (lang: any) => void; T: (key: string) => string };
 
   useEffect(() => {
     const handleScroll = () => {
