@@ -6,12 +6,19 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
+interface LanguageContextType {
+  language: string;
+  setLanguage: (lang: any) => void;
+  T: (key: string) => string;
+}
+
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const context = useLanguage() as any;
-  const language = context?.language;
-  const setLanguage = context?.setLanguage;
-  const T = context?.T || context?.T || ((key: string) => key);
+  const [scrolled, setScrolled] = useState<boolean>(false);
+  const context = useLanguage() as unknown as LanguageContextType;
+  
+  const language = context?.language || "ar";
+  const setLanguage = context?.setLanguage || (() => {});
+  const T = context?.T || ((key: string) => key);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,7 +63,7 @@ export default function Navbar() {
             {langs.map((L) => (
               <button
                 key={l.code}
-                onClick={() => setLanguage && setLanguage(l.code as any)}
+                onClick={() => setLanguage(l.code)}
                 className={cn(
                   "flex items-center justify-center w-9 h-9 rounded-xl border text-[10px] font-bold transition-all duration-500",
                   language === l.code 
