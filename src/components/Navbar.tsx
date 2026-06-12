@@ -1,14 +1,23 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+interface LanguageContextType {
+  language: string;
+  setLanguage: (lang: any) => void;
+  T: (key: string) => string;
+}
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const { language, setLanguage, t } = useLanguage();
+  const [scrolled, setScrolled] = useState<boolean>(false);
+  const context = useLanguage() as unknown as LanguageContextType;
+  
+  const language = context?.language || "ar";
+  const setLanguage = context?.setLanguage || (() => {});
+  const T = context?.T || ((key: string) => key);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,7 +62,7 @@ export default function Navbar() {
             {langs.map((l) => (
               <button
                 key={l.code}
-                onClick={() => setLanguage(l.code as any)}
+                onClick={() => setLanguage(l.code)}
                 className={cn(
                   "flex items-center justify-center w-9 h-9 rounded-xl border text-[10px] font-bold transition-all duration-500",
                   language === l.code 
@@ -76,7 +85,7 @@ export default function Navbar() {
                   className="text-white/40 hover:text-white transition-all duration-300 relative group"
                 >
                   <span className={cn(isAr ? "font-arabic-body text-sm tracking-normal" : "font-english-body")}>
-                    {t(link.key)}
+                    {T(link.key)}
                   </span>
                   <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold transition-all duration-300 group-hover:w-full"></span>
                 </a>
@@ -88,14 +97,15 @@ export default function Navbar() {
         <div className="flex-shrink-0 z-10">
           <motion.div 
             whileHover={{ scale: 1.05 }}
-            className="relative h-10 w-auto cursor-pointer"
+            className="relative h-10 w-28 cursor-pointer flex items-center"
           >
             <Image 
               src="/images/local_cache/gfGxLxQ.png" 
               alt="Saad Nejjai" 
-              width={200}
-              height={80}
-              className="h-full w-auto object-contain drop-shadow-[0_0_15px_rgba(255,200,61,0.3)]"
+              fill
+              sizes="(max-width: 768px) 100px, 120px"
+              priority
+              className="object-contain drop-shadow-[0_0_15px_rgba(255,200,61,0.3)]"
             />
           </motion.div>
         </div>
