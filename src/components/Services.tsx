@@ -61,14 +61,14 @@ export default function Services() {
             transition={{ duration: 0.8 }}
             className="max-w-2xl"
           >
-            <h2 className={cn("mb-8", isAr ? "font-arabic-hero text-5xl md:text-7xl" : "font-english-hero text-5xl md:text-7xl")}>
+            <h2 className={cn("text-5xl md:text-7xl mb-8", isAr ? "font-arabic-hero" : "font-english-hero")}>
               <div className="text-gold-gradient mb-4">{t("servicesTitle")}</div>
-              <div className={cn("text-white/20 tracking-tighter uppercase text-3xl md:text-5xl", isAr ? "font-arabic-body" : "font-english-body")}>{t("servicesDesc")}</div>
+              <div className="text-white/20 tracking-tighter uppercase text-3xl md:text-5xl">{t("servicesDesc")}</div>
             </h2>
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-6 md:gap-8 auto-rows-[300px]">
+        <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-6 md:gap-8 auto-rows-[300px]">  
           {services.map((service, idx) => (
             <motion.div
               key={idx}
@@ -94,7 +94,7 @@ export default function Services() {
               </div>
               
               <div className="mt-8">
-                <h4 className={cn("text-2xl font-bold text-white mb-3", isAr ? "font-arabic-body" : "font-english-body")}>
+                <h4 className={cn("text-2xl font-bold text-white mb-3", isAr ? "font-arabic-hero" : "font-english-hero")}>
                   {service.title}
                 </h4>
                 <p className={cn("text-text-secondary text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500", isAr ? "font-arabic-body" : "font-english-body")}>

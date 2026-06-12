@@ -1,9 +1,10 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -89,9 +90,11 @@ export default function Navbar() {
             whileHover={{ scale: 1.05 }}
             className="relative h-10 w-auto cursor-pointer"
           >
-            <img 
-              src="https://imgur.com/gfGxLxQ.png" 
+            <Image 
+              src="/images/local_cache/gfGxLxQ.png" 
               alt="Saad Nejjai" 
+              width={200}
+              height={80}
               className="h-full w-auto object-contain drop-shadow-[0_0_15px_rgba(255,200,61,0.3)]"
             />
           </motion.div>

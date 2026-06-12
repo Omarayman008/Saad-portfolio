@@ -1,9 +1,10 @@
-"use client";
+﻿"use client";
 
 import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ArrowDownRight } from "lucide-react";
+import Image from "next/image";
 
 export default function Hero() {
   const { language, t } = useLanguage();
@@ -51,9 +52,11 @@ export default function Hero() {
             variants={itemVariants}
             className="mb-12"
           >
-            <img 
-              src="https://imgur.com/gfGxLxQ.png" 
+            <Image 
+              src="/images/local_cache/gfGxLxQ.png" 
               alt="Saad Nejjai Logo" 
+              width={800}
+              height={400}
               className="w-full max-w-[300px] md:max-w-[500px] h-auto object-contain drop-shadow-[0_0_50px_rgba(255,200,61,0.2)]"
             />
           </motion.div>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Fredoka, Zain, Quicksand } from "next/font/google";
+import { Outfit, Bagel_Fat_One, Quicksand, Baloo_Bhaijaan_2 } from "next/font/google";
 import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -14,23 +14,22 @@ const quicksand = Quicksand({
   variable: "--font-quicksand",
 });
 
-const fredoka = Fredoka({
-  weight: ["300", "400", "500", "600", "700"],
+const bagel = Bagel_Fat_One({
+  weight: "400",
   subsets: ["latin"],
-  variable: "--font-fredoka",
+  variable: "--font-bagel",
 });
 
-const zain = Zain({
-  weight: ["200", "300", "400", "700", "800", "900"],
+const baloo = Baloo_Bhaijaan_2({
   subsets: ["arabic"],
-  variable: "--font-zain",
+  variable: "--font-baloo",
 });
 
 export const metadata: Metadata = {
   title: "SaadNejjai | Premium Graphic Design",
   description: "Portfolio of SaadNejjai, specializing in Branding, Visual Identity, Social Media & Advertising, Book Covers & Logos.",
   icons: {
-    icon: "https://imgur.com/FHU5GHE.png",
+    icon: "/images/local_cache/FHU5GHE.png",
   },
 };
 
@@ -40,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${outfit.variable} ${fredoka.variable} ${quicksand.variable} ${zain.variable}`}>
+    <html lang="ar" dir="rtl" className={`${outfit.variable} ${bagel.variable} ${quicksand.variable} ${baloo.variable}`}>
       <body className="antialiased bg-primary text-text-primary overflow-x-hidden selection:bg-gold/30 selection:text-gold-light">
         <LanguageProvider>
           <div className="bg-noise" />
