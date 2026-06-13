@@ -13,11 +13,11 @@ interface LanguageContextType {
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState<boolean>(false);
-  const context = useLanguage() as unknown as LanguageContextType;
-  
+  const context = useLanguage();
+
   const language = context?.language || "ar";
-  const setLanguage = context?.setLanguage || (() => {});
-  const T = context?.T || ((key: string) => key);
+  const setLanguage = context?.setLanguage || (() => { });
+  const t = context?.t || ((key: string) => key);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,7 +35,7 @@ export default function Navbar() {
     { key: "contact", href: "#contact" },
   ];
 
-  const langs = [
+  const langs: { code: "ar" | "tr" | "en"; label: string }[] = [
     { code: "ar", label: "AR" },
     { code: "tr", label: "TR" },
     { code: "en", label: "EN" },
@@ -65,8 +65,8 @@ export default function Navbar() {
                 onClick={() => setLanguage(l.code)}
                 className={cn(
                   "flex items-center justify-center w-9 h-9 rounded-xl border text-[10px] font-bold transition-all duration-500",
-                  language === l.code 
-                    ? "bg-white border-white text-black shadow-xl" 
+                  language === l.code
+                    ? "bg-white border-white text-black shadow-xl"
                     : "border-white/10 text-white/40 hover:border-white/30 hover:text-white"
                 )}
               >
@@ -85,7 +85,7 @@ export default function Navbar() {
                   className="text-white/40 hover:text-white transition-all duration-300 relative group"
                 >
                   <span className={cn(isAr ? "font-arabic-body text-sm tracking-normal" : "font-english-body")}>
-                    {T(link.key)}
+                    {t(link.key)}
                   </span>
                   <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold transition-all duration-300 group-hover:w-full"></span>
                 </a>
@@ -95,13 +95,13 @@ export default function Navbar() {
         </div>
 
         <div className="flex-shrink-0 z-10">
-          <motion.div 
+          <motion.div
             whileHover={{ scale: 1.05 }}
             className="relative h-10 w-28 cursor-pointer flex items-center"
           >
-            <Image 
-              src="/images/local_cache/gfGxLxQ.png" 
-              alt="Saad Nejjai" 
+            <Image
+              src="/images/local_cache/gfGxLxQ.png"
+              alt="Saad Nejjai"
               fill
               sizes="(max-width: 768px) 100px, 120px"
               priority
